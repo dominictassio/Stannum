@@ -45,11 +45,19 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStatement([NotNull] StannumParser.StatementContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.definition"/>.
+	/// Visit a parse tree produced by the <c>Definition</c>
+	/// labeled alternative in <see cref="StannumParser.definition_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitDefinition([NotNull] StannumParser.DefinitionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>DefinitionWithoutSemi</c>
+	/// labeled alternative in <see cref="StannumParser.definition_"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDefinitionWithoutSemi([NotNull] StannumParser.DefinitionWithoutSemiContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.exprStmt"/>.
 	/// </summary>
@@ -63,11 +71,26 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitForStmt([NotNull] StannumParser.ForStmtContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.ifStmt"/>.
+	/// Visit a parse tree produced by the <c>IfStmt</c>
+	/// labeled alternative in <see cref="StannumParser.ifStmt_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitIfStmt([NotNull] StannumParser.IfStmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>IfElseStmt</c>
+	/// labeled alternative in <see cref="StannumParser.ifStmt_"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfElseStmt([NotNull] StannumParser.IfElseStmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>IfElseIfStmt</c>
+	/// labeled alternative in <see cref="StannumParser.ifStmt_"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfElseIfStmt([NotNull] StannumParser.IfElseIfStmtContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.whileStmt"/>.
 	/// </summary>
@@ -75,11 +98,11 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitWhileStmt([NotNull] StannumParser.WhileStmtContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.block"/>.
+	/// Visit a parse tree produced by <see cref="StannumParser.blockStmt"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitBlock([NotNull] StannumParser.BlockContext context);
+	Result VisitBlockStmt([NotNull] StannumParser.BlockStmtContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.expression"/>.
 	/// </summary>
@@ -87,73 +110,131 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitExpression([NotNull] StannumParser.ExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.sequence"/>.
+	/// Visit a parse tree produced by the <c>AssignmentSkip</c>
+	/// labeled alternative in <see cref="StannumParser.assignment_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitSequence([NotNull] StannumParser.SequenceContext context);
+	Result VisitAssignmentSkip([NotNull] StannumParser.AssignmentSkipContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.assignment"/>.
+	/// Visit a parse tree produced by the <c>Assignment</c>
+	/// labeled alternative in <see cref="StannumParser.assignment_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitAssignment([NotNull] StannumParser.AssignmentContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.coalesce"/>.
+	/// Visit a parse tree produced by the <c>CoalesceSkip</c>
+	/// labeled alternative in <see cref="StannumParser.coalesce_"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCoalesceSkip([NotNull] StannumParser.CoalesceSkipContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>Coalesce</c>
+	/// labeled alternative in <see cref="StannumParser.coalesce_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitCoalesce([NotNull] StannumParser.CoalesceContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.logicalOr"/>.
+	/// Visit a parse tree produced by the <c>LogicalOrSkip</c>
+	/// labeled alternative in <see cref="StannumParser.logicalOr_"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLogicalOrSkip([NotNull] StannumParser.LogicalOrSkipContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>LogicalOr</c>
+	/// labeled alternative in <see cref="StannumParser.logicalOr_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitLogicalOr([NotNull] StannumParser.LogicalOrContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.logicalAnd"/>.
+	/// Visit a parse tree produced by the <c>LogicalAnd</c>
+	/// labeled alternative in <see cref="StannumParser.logicalAnd_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitLogicalAnd([NotNull] StannumParser.LogicalAndContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.equality"/>.
+	/// Visit a parse tree produced by the <c>LogicalAndSkip</c>
+	/// labeled alternative in <see cref="StannumParser.logicalAnd_"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLogicalAndSkip([NotNull] StannumParser.LogicalAndSkipContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>EqualitySkip</c>
+	/// labeled alternative in <see cref="StannumParser.equality_"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitEqualitySkip([NotNull] StannumParser.EqualitySkipContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>Equality</c>
+	/// labeled alternative in <see cref="StannumParser.equality_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitEquality([NotNull] StannumParser.EqualityContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.relational"/>.
+	/// Visit a parse tree produced by the <c>Relational</c>
+	/// labeled alternative in <see cref="StannumParser.relational_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitRelational([NotNull] StannumParser.RelationalContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.additive"/>.
+	/// Visit a parse tree produced by the <c>RelationalSkip</c>
+	/// labeled alternative in <see cref="StannumParser.relational_"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRelationalSkip([NotNull] StannumParser.RelationalSkipContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>AdditiveSkip</c>
+	/// labeled alternative in <see cref="StannumParser.additive_"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAdditiveSkip([NotNull] StannumParser.AdditiveSkipContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>Additive</c>
+	/// labeled alternative in <see cref="StannumParser.additive_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitAdditive([NotNull] StannumParser.AdditiveContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.multiplicative"/>.
+	/// Visit a parse tree produced by the <c>Multiplicative</c>
+	/// labeled alternative in <see cref="StannumParser.multiplicative_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitMultiplicative([NotNull] StannumParser.MultiplicativeContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>UnarySkip</c>
-	/// labeled alternative in <see cref="StannumParser.unary_"/>.
+	/// Visit a parse tree produced by the <c>MultiplicativeSkip</c>
+	/// labeled alternative in <see cref="StannumParser.multiplicative_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitUnarySkip([NotNull] StannumParser.UnarySkipContext context);
+	Result VisitMultiplicativeSkip([NotNull] StannumParser.MultiplicativeSkipContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>Unary</c>
-	/// labeled alternative in <see cref="StannumParser.unary_"/>.
+	/// Visit a parse tree produced by the <c>PrefixSkip</c>
+	/// labeled alternative in <see cref="StannumParser.prefix_"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitUnary([NotNull] StannumParser.UnaryContext context);
+	Result VisitPrefixSkip([NotNull] StannumParser.PrefixSkipContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>Prefix</c>
+	/// labeled alternative in <see cref="StannumParser.prefix_"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPrefix([NotNull] StannumParser.PrefixContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>Call</c>
 	/// labeled alternative in <see cref="StannumParser.call_"/>.
@@ -225,11 +306,19 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitIdentifier([NotNull] StannumParser.IdentifierContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.ifExpr"/>.
+	/// Visit a parse tree produced by the <c>IfElseExpr</c>
+	/// labeled alternative in <see cref="StannumParser.ifExpr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitIfExpr([NotNull] StannumParser.IfExprContext context);
+	Result VisitIfElseExpr([NotNull] StannumParser.IfElseExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>IfElseIfExpr</c>
+	/// labeled alternative in <see cref="StannumParser.ifExpr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfElseIfExpr([NotNull] StannumParser.IfElseIfExprContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.lambdaWithBlock"/>.
 	/// </summary>
@@ -243,11 +332,33 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLambdaWithExpr([NotNull] StannumParser.LambdaWithExprContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.literal"/>.
+	/// Visit a parse tree produced by the <c>NumberLit</c>
+	/// labeled alternative in <see cref="StannumParser.literal"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitLiteral([NotNull] StannumParser.LiteralContext context);
+	Result VisitNumberLit([NotNull] StannumParser.NumberLitContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>StringLit</c>
+	/// labeled alternative in <see cref="StannumParser.literal"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitStringLit([NotNull] StannumParser.StringLitContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>ListLit</c>
+	/// labeled alternative in <see cref="StannumParser.literal"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitListLit([NotNull] StannumParser.ListLitContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>RecordLit</c>
+	/// labeled alternative in <see cref="StannumParser.literal"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRecordLit([NotNull] StannumParser.RecordLitContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.list"/>.
 	/// </summary>

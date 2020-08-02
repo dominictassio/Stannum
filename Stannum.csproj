@@ -11,6 +11,7 @@
         <AssemblyName>Stannum</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,6 +43,27 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="AstConverter.cs" />
+        <Compile Include="Ast\AstNode.cs" />
+        <Compile Include="Ast\BinaryExpr.cs" />
+        <Compile Include="Ast\BlockExpr.cs" />
+        <Compile Include="Ast\BlockStmt.cs" />
+        <Compile Include="Ast\BreakExpr.cs" />
+        <Compile Include="Ast\CallExpr.cs" />
+        <Compile Include="Ast\ContinueExpr.cs" />
+        <Compile Include="Ast\DefStmt.cs" />
+        <Compile Include="Ast\Expr.cs" />
+        <Compile Include="Ast\ExprStmt.cs" />
+        <Compile Include="Ast\ForStmt.cs" />
+        <Compile Include="Ast\IfExpr.cs" />
+        <Compile Include="Ast\IfStmt.cs" />
+        <Compile Include="Ast\LambdaExpr.cs" />
+        <Compile Include="Ast\Lit.cs" />
+        <Compile Include="Ast\RecordMember.cs" />
+        <Compile Include="Ast\ReturnExpr.cs" />
+        <Compile Include="Ast\Stmt.cs" />
+        <Compile Include="Ast\UnaryExpr.cs" />
+        <Compile Include="Ast\WhileStmt.cs" />
         <Compile Include="Grammar\StannumBaseVisitor.cs" />
         <Compile Include="Grammar\StannumLexer.cs" />
         <Compile Include="Grammar\StannumParser.cs" />

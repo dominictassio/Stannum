@@ -1,6 +1,6 @@
 grammar Stannum;
 
-program: statements+=statement* EOF;
+program: Stmts+=statement* EOF;
 
 
 //
@@ -8,75 +8,76 @@ program: statements+=statement* EOF;
 //
 
 statement
-    : definition
+    : definition_
     | exprStmt
     | forStmt
-    | ifStmt
+    | ifStmt_
     | whileStmt
-    | block;
+    | blockStmt;
 
-definition
-    : Name=identifier '=' Value=expression ';'
-    | Name=identifier '=' ValueWithoutSemi=primaryWithBlock;
+definition_
+    : Name=identifier '=' Value=expression ';' # Definition
+    | Name=identifier '=' Value=primaryWithBlock # DefinitionWithoutSemi;
 
 exprStmt: Value=expression ';';
 
-forStmt: (Label=identifier ':')? FOR Value=expression '->' Variable=identifier Body=block;
+forStmt: (Label=identifier ':')? FOR Value=expression ('->' Var=identifier)? Body=blockStmt;
 
-ifStmt: IF Condition=expression Consequent=block (ELSE (Alternative=block | AlternativeIf=ifStmt))?;
+ifStmt_
+    : IF Cond=expression Cons=blockStmt # IfStmt
+    | IF Cond=expression Cons=blockStmt ELSE Alt=blockStmt # IfElseStmt
+    | IF Cond=expression Cons=blockStmt ELSE AltIf=ifStmt_ # IfElseIfStmt;
 
-whileStmt: (Label=identifier ':')? WHILE Value=expression Body=block;
+whileStmt: (Label=identifier ':')? WHILE Value=expression Body=blockStmt;
 
-block: '{' Statements+=statement '}';
+blockStmt: '{' Stmts+=statement '}';
 
 
 //
 // Expressions
 //
 
-expression: sequence;
+expression: assignment_;
 
-sequence
-    : Right=assignment
-    | Left=sequence ';' Right=assignment;
+assignment_
+    : coalesce_ # AssignmentSkip
+    | Left=access_ Op=(':='|'+='|'-='|'*='|'/='|'%=') Right=expression # Assignment;
 
-assignment: Left=access_ Op=(':='|'+='|'-='|'*='|'/='|'%=') Right=expression;
+coalesce_
+    : logicalOr_ # CoalesceSkip
+    | Left=logicalOr_ Op=('??'|'!?') Right=coalesce_ # Coalesce;
 
-coalesce
-    : Left=logicalOr
-    | Left=logicalOr '??' Right=coalesce;
+logicalOr_
+    : logicalAnd_ # LogicalOrSkip
+    | Left=logicalOr_ '||' Right=logicalAnd_ # LogicalOr;
 
-logicalOr
-    : Right=logicalAnd
-    | Left=logicalOr '||' Right=logicalAnd;
+logicalAnd_
+    : equality_ # LogicalAndSkip
+    | Left=logicalAnd_ '&&' Right=equality_ # LogicalAnd;
 
-logicalAnd
-    : Right=equality
-    | Left=logicalAnd '&&' Right=equality;
+equality_
+    : relational_ # EqualitySkip
+    | Left=equality_ Op=('=='|'!=') Right=relational_ # Equality;
 
-equality
-    : Right=relational
-    | Left=equality Op=('=='|'!=') Right=relational;
+relational_
+    : additive_ # RelationalSkip
+    | Left=relational_ Op=('<'|'>'|'<='|'>=') Right=additive_ # Relational;
 
-relational
-    : Right=additive
-    | Left=relational Op=('<'|'>'|'<='|'>=') Right=additive;
+additive_
+    : multiplicative_ # AdditiveSkip
+    | Left=additive_ Op=('+'|'-') Right=multiplicative_ # Additive;
 
-additive
-    : Right=multiplicative
-    | Left=additive Op=('+'|'-') Right=multiplicative;
+multiplicative_
+    : prefix_ # MultiplicativeSkip
+    | Left=multiplicative_ Op=('*'|'/'|'%') Right=prefix_# Multiplicative;
 
-multiplicative
-    : Right=unary_
-    | Left=multiplicative Op=('*'|'/'|'%') Right=unary_;
-
-unary_
-    : call_ # UnarySkip
-    | Op=('!'|'-') Operand=unary_ # Unary;
+prefix_
+    : call_ # PrefixSkip
+    | Op=('!'|'-') Operand=prefix_ # Prefix;
     
 call_
     : primary # CallSkip
-    | call_ '(' (Args+=expression ',')* Args+=expression? ')' # Call;
+    | Callee=call_ '(' (Args+=expression ',')* Args+=expression? ')' # Call;
 
 primary
     : access_
@@ -97,9 +98,9 @@ primaryWithBlock
     
 access_
     : identifier # AccessSkip
-    | access_ '.' identifier # Access;
+    | Left=access_ Op=('.'|'?.') Right=identifier # Access;
 
-blockExpr: '{' Statements+=statement* Value=expression '}';
+blockExpr: '{' Stmts+=statement* Value=expression '}';
 
 breakExpr: BREAK Label=identifier?;
 
@@ -111,25 +112,27 @@ identifier
     : IDENTIFIER keyword*
     | '$' keyword+;
 
-ifExpr: IF Condition=expression Consequent=blockExpr ELSE (Alternative=blockExpr | AlternativeIf=ifExpr);
+ifExpr
+    : IF Cond=expression Cons=blockExpr ELSE Alt=blockExpr # IfElseExpr
+    | IF Cond=expression Cons=blockExpr ELSE AltIf=ifExpr # IfElseIfExpr;
 
-lambdaWithBlock: '(' (Params+=identifier ',')* Params+=identifier? ')' Body=block;
+lambdaWithBlock: '(' (Params+=identifier ',')* Params+=identifier? ')' Body=blockStmt;
 
 lambdaWithExpr: '(' (Params+=identifier ',')* Params+=identifier? ')' '=>' Value=expression;
 
 literal
-    : NUMBER
-    | STRING
-    | list
-    | record;
+    : NUMBER # NumberLit
+    | STRING # StringLit
+    | list # ListLit
+    | record # RecordLit;
     
-list: '[' (Elements+=expression)* Elements+=expression? ']';
+list: '[' (Elems+=expression)* Elems+=expression? ']';
 
-record: '{' Members+=recordMember (',' Members+=recordMember)* ','? '}';
+record: '{' Elems+=recordMember (',' Elems+=recordMember)* ','? '}';
 
 recordMember: Name=identifier '=' Value=expression;
 
-returnExpr: RETURN value=expression?;
+returnExpr: RETURN Value=expression?;
 
 
 //
