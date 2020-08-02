@@ -46,7 +46,7 @@
         <Compile Include="Grammar\StannumLexer.cs" />
         <Compile Include="Grammar\StannumParser.cs" />
         <Compile Include="Grammar\StannumVisitor.cs" />
-        <Compile Include="Program.cs" />
+        <Compile Include="Stannum.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
