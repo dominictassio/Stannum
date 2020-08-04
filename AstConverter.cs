@@ -10,43 +10,76 @@ namespace Stannum
     {
         public List<Stmt> Convert(StannumParser.ProgramContext context)
         {
-            var stmts = new List<Stmt>();
+            var definitions = new List<Stmt>();
+
+            for (var i = 0; i < context._Defs.Count; i += 1)
+            {
+                if (!(Visit(context._Defs[i]) is DefStmt definition))
+                {
+                    throw new Exception("Unrecognized definition!");
+                }
+
+                definitions.Add(definition);
+            }
+
+            return definitions;
+        }
+
+        public List<Stmt> Convert(StannumParser.ReplContext context)
+        {
+            var statements = new List<Stmt>();
 
             for (var i = 0; i < context._Stmts.Count; i += 1)
             {
-                if (!(Visit(context._Stmts[i]) is Stmt stmt))
+                if (!(Visit(context._Stmts[i]) is Stmt statement))
                 {
                     throw new Exception("Unrecognized statement!");
                 }
-
-                stmts.Add(stmt);
+                
+                statements.Add(statement);
             }
 
-            return stmts;
+            if (context.Value != null)
+            {
+                if (!(Visit(context.Value) is Expr expression))
+                {
+                    throw new Exception("Unrecognized expression!");
+                }
+                
+                statements.Add(new ExprStmt(expression));
+            }
+
+            return statements;
         }
 
         public override AstNode VisitDefinition(StannumParser.DefinitionContext context)
         {
-            var name = context.Name.GetText();
+            if (!(Visit(context.Name) is Identifier name))
+            {
+                throw new Exception("Unrecognized identifier!");
+            }
 
             if (!(Visit(context.Value) is Expr value))
             {
                 throw new Exception("Unrecognized expression!");
             }
 
-            return new DefStmt(name, value);
+            return new DefStmt(name.Value, value);
         }
 
         public override AstNode VisitDefinitionWithoutSemi(StannumParser.DefinitionWithoutSemiContext context)
         {
-            var name = context.Name.GetText();
+            if (!(Visit(context.Name) is Identifier name))
+            {
+                throw new Exception("Unrecognized identifier!");
+            }
 
             if (!(Visit(context.Value) is Expr value))
             {
                 throw new Exception("Unrecognized expression!");
             }
 
-            return new DefStmt(name, value);
+            return new DefStmt(name.Value, value);
         }
 
         public override AstNode VisitExprStmt(StannumParser.ExprStmtContext context)
@@ -61,7 +94,10 @@ namespace Stannum
 
         public override AstNode VisitForStmt(StannumParser.ForStmtContext context)
         {
-            var label = context.Label?.GetText();
+            if (!(Visit(context.Label) is Identifier label))
+            {
+                throw new Exception("Unrecognized identifier!");
+            }
 
             if (!(Visit(context.Value) is Expr value))
             {
@@ -75,7 +111,7 @@ namespace Stannum
                 throw new Exception("Unrecognized block!");
             }
 
-            return new ForStmt(label, value, variable, body);
+            return new ForStmt(label.Value, value, variable, body);
         }
 
         public override AstNode VisitIfStmt(StannumParser.IfStmtContext context)
@@ -127,7 +163,7 @@ namespace Stannum
 
             if (!(Visit(context.AltIf) is IfStmt alternative))
             {
-                throw new Exception("Unrecognized if statement!");
+                throw new Exception("Unrecognized else if statement!");
             }
 
             return new IfStmt(condition, consequent, alternative);
@@ -135,7 +171,10 @@ namespace Stannum
 
         public override AstNode VisitWhileStmt(StannumParser.WhileStmtContext context)
         {
-            var label = context.Label?.GetText();
+            if (!(Visit(context.Label) is Identifier label))
+            {
+                throw new Exception("Unrecognized identifier!");
+            }
 
             if (!(Visit(context.Value) is Expr value))
             {
@@ -147,7 +186,7 @@ namespace Stannum
                 throw new Exception("Unrecognized block!");
             }
 
-            return new WhileStmt(label, value, body);
+            return new WhileStmt(label.Value, value, body);
         }
 
         public override AstNode VisitBlockStmt(StannumParser.BlockStmtContext context)
@@ -194,7 +233,7 @@ namespace Stannum
                 throw new Exception("Unrecognized expression!");
             }
 
-            return new BinaryExpr(left, context.Op.Text, right);
+            return new BinaryExpr(left, "??", right);
         }
 
         public override AstNode VisitLogicalOr(StannumParser.LogicalOrContext context)
@@ -321,17 +360,9 @@ namespace Stannum
 
         public override AstNode VisitAccess(StannumParser.AccessContext context)
         {
-            if (!(Visit(context.Left) is Expr left))
-            {
-                throw new Exception("Unrecognized expression!");
-            }
-
-            if (!(Visit(context.Right) is Expr right))
-            {
-                throw new Exception("Unrecognized expression!");
-            }
-
-            return new BinaryExpr(left, context.Op.Text, right);
+            return !(Visit(context.Left) is Identifier left) || !(Visit(context.Right) is Identifier right)
+                ? throw new Exception("Unrecognized identifier!")
+                : new BinaryExpr(left, context.Op.Text, right);
         }
 
         public override AstNode VisitBlockExpr(StannumParser.BlockExprContext context)
@@ -358,16 +389,37 @@ namespace Stannum
 
         public override AstNode VisitBreakExpr(StannumParser.BreakExprContext context)
         {
-            var label = context.Label?.GetText();
+            if (context.Label == null)
+            {
+                return new BreakExpr();
+            }
 
-            return new BreakExpr(label);
+            if (!(Visit(context.Label) is Identifier label))
+            {
+                throw new Exception("Unrecognized identifier!");
+            }
+
+            return new BreakExpr(label.Value);
         }
 
         public override AstNode VisitContinueExpr(StannumParser.ContinueExprContext context)
         {
-            var label = context.Label?.GetText();
+            if (context.Label == null)
+            {
+                return new ContinueExpr();
+            }
 
-            return new ContinueExpr(label);
+            if (!(Visit(context.Label) is Identifier label))
+            {
+                throw new Exception("Unrecognized identifier!");
+            }
+
+            return new ContinueExpr(label.Value);
+        }
+
+        public override AstNode VisitIdentifier(StannumParser.IdentifierContext context)
+        {
+            return new Identifier(context.GetText());
         }
 
         public override AstNode VisitIfElseExpr(StannumParser.IfElseExprContext context)
@@ -452,8 +504,8 @@ namespace Stannum
             {
                 throw new Exception("Unrecognized number!");
             }
-            
-            return new NumberLit(value);
+
+            return new Literal(value);
         }
 
         public override AstNode VisitStringLit(StannumParser.StringLitContext context)
@@ -461,7 +513,7 @@ namespace Stannum
             var builder = new StringBuilder();
             var raw = context.GetText();
 
-            for (var i = 0; i < raw.Length; i += 1)
+            for (var i = 1; i < raw.Length - 1; i += 1)
             {
                 if (raw[i] == '\\')
                 {
@@ -488,8 +540,8 @@ namespace Stannum
                     builder.Append(raw[i]);
                 }
             }
-            
-            return new StringLit(builder.ToString());
+
+            return new Literal(builder.ToString());
         }
 
         public override AstNode VisitList(StannumParser.ListContext context)
@@ -502,11 +554,11 @@ namespace Stannum
                 {
                     throw new Exception("Unrecognized expression!");
                 }
-                
+
                 elements.Add(element);
             }
-            
-            return new ListLit(elements);
+
+            return new Literal(elements);
         }
 
         public override AstNode VisitRecord(StannumParser.RecordContext context)
@@ -522,8 +574,8 @@ namespace Stannum
 
                 members[member.Name] = member.Value;
             }
-            
-            return new RecordLit(members);
+
+            return new Literal(members);
         }
 
         public override AstNode VisitRecordMember(StannumParser.RecordMemberContext context)
@@ -534,7 +586,7 @@ namespace Stannum
             {
                 throw new Exception("Unrecognized expression!");
             }
-            
+
             return new RecordMember(name, value);
         }
 
@@ -549,7 +601,7 @@ namespace Stannum
             {
                 throw new Exception("Unrecognized expression!");
             }
-            
+
             return new ReturnExpr(value);
         }
     }

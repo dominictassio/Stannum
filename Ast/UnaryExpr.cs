@@ -2,14 +2,14 @@
 {
     public class UnaryExpr : Expr
     {
-        public UnaryExpr(string op, Expr right)
+        public UnaryExpr(string op, Expr operand)
         {
             Op = op;
-            Right = right;
+            Operand = operand;
         }
         
         public string Op { get; }
         
-        public Expr Right { get; }
+        public Expr Operand { get; }
     }
 }

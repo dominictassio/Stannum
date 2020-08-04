@@ -4,14 +4,14 @@ namespace Stannum.Ast
 {
     public class LambdaExpr : Expr
     {
-        public LambdaExpr(List<string> @params, Stmt body)
+        public LambdaExpr(List<string> parameters, BlockStmt body)
         {
-            Params = @params;
+            Parameters = parameters;
             Body = body;
         }
 
-        public List<string> Params { get; }
+        public List<string> Parameters { get; }
         
-        public Stmt Body { get; }
+        public BlockStmt Body { get; }
     }
 }

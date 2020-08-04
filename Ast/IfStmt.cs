@@ -2,7 +2,7 @@
 {
     public class IfStmt : Stmt
     {
-        public IfStmt(Expr condition, Stmt consequent, Stmt alternative = null)
+        public IfStmt(Expr condition, BlockStmt consequent, Stmt alternative = null)
         {
             Condition = condition;
             Consequent = consequent;
@@ -11,7 +11,7 @@
         
         public Expr Condition { get; }
         
-        public Stmt Consequent { get; }
+        public BlockStmt Consequent { get; }
         
         public Stmt Alternative { get; }
     }

@@ -39,6 +39,12 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitProgram([NotNull] StannumParser.ProgramContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="StannumParser.repl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRepl([NotNull] StannumParser.ReplContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

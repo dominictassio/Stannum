@@ -1,6 +1,8 @@
 grammar Stannum;
 
-program: Stmts+=statement* EOF;
+program: Defs+=definition_* EOF;
+
+repl: Stmts+=statement* Value=expression? EOF;
 
 
 //
@@ -30,7 +32,7 @@ ifStmt_
 
 whileStmt: (Label=identifier ':')? WHILE Value=expression Body=blockStmt;
 
-blockStmt: '{' Stmts+=statement '}';
+blockStmt: '{' Stmts+=statement* '}';
 
 
 //
@@ -41,11 +43,11 @@ expression: assignment_;
 
 assignment_
     : coalesce_ # AssignmentSkip
-    | Left=access_ Op=(':='|'+='|'-='|'*='|'/='|'%=') Right=expression # Assignment;
+    | Left=access_ Op=(':='|'+='|'-='|'*='|'/='|'%=') Right=assignment_ # Assignment;
 
 coalesce_
     : logicalOr_ # CoalesceSkip
-    | Left=logicalOr_ Op=('??'|'!?') Right=coalesce_ # Coalesce;
+    | Left=logicalOr_ '??' Right=coalesce_ # Coalesce;
 
 logicalOr_
     : logicalAnd_ # LogicalOrSkip
@@ -94,7 +96,8 @@ primary
 primaryWithBlock
     : blockExpr
     | ifExpr
-    | lambdaWithBlock;
+    | lambdaWithBlock
+    | record;
     
 access_
     : identifier # AccessSkip
@@ -126,7 +129,7 @@ literal
     | list # ListLit
     | record # RecordLit;
     
-list: '[' (Elems+=expression)* Elems+=expression? ']';
+list: '[' (Elems+=expression ',')* Elems+=expression? ']';
 
 record: '{' Elems+=recordMember (',' Elems+=recordMember)* ','? '}';
 
@@ -156,7 +159,7 @@ IDENTIFIER: [a-zA-Z_] [a-zA-Z0-9_]*;
     
 NUMBER: [0-9] [0-9_]* ('.' [0-9] [0-9_]*)?;
 
-STRING: '"' STRCHAR '"';
+STRING: '"' STRCHAR* '"';
 
 fragment STRCHAR
     : ~["\\\r\n]

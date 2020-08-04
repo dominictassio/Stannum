@@ -2,7 +2,7 @@
 {
     public class ForStmt : Stmt
     {
-        public ForStmt(string label, Expr value, string variable, Stmt body)
+        public ForStmt(string label, Expr value, string variable, BlockStmt body)
         {
             Label = label;
             Value = value;
@@ -16,6 +16,6 @@
 
         public string Variable { get; }
 
-        public Stmt Body { get; }
+        public BlockStmt Body { get; }
     }
 }

@@ -37,9 +37,43 @@
           <HintPath>packages\Antlr4.Runtime.Standard.4.8.0\lib\net35\Antlr4.Runtime.Standard.dll</HintPath>
           <Private>True</Private>
         </Reference>
+        <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="mscorlib" />
         <Reference Include="System" />
+        <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
+        <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Numerics" />
+        <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+          <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+          <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Text.Encodings.Web, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>packages\System.Text.Encodings.Web.4.7.1\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
@@ -55,19 +89,26 @@
         <Compile Include="Ast\Expr.cs" />
         <Compile Include="Ast\ExprStmt.cs" />
         <Compile Include="Ast\ForStmt.cs" />
+        <Compile Include="Ast\Identifier.cs" />
         <Compile Include="Ast\IfExpr.cs" />
         <Compile Include="Ast\IfStmt.cs" />
         <Compile Include="Ast\LambdaExpr.cs" />
-        <Compile Include="Ast\Lit.cs" />
+        <Compile Include="Ast\Literal.cs" />
         <Compile Include="Ast\RecordMember.cs" />
         <Compile Include="Ast\ReturnExpr.cs" />
         <Compile Include="Ast\Stmt.cs" />
         <Compile Include="Ast\UnaryExpr.cs" />
         <Compile Include="Ast\WhileStmt.cs" />
+        <Compile Include="Callables.cs" />
+        <Compile Include="Environment.cs" />
+        <Compile Include="Exceptions.cs" />
         <Compile Include="Grammar\StannumBaseVisitor.cs" />
         <Compile Include="Grammar\StannumLexer.cs" />
         <Compile Include="Grammar\StannumParser.cs" />
         <Compile Include="Grammar\StannumVisitor.cs" />
+        <Compile Include="Interpreter.cs" />
+        <Compile Include="Prelude.cs" />
+        <Compile Include="Resolver.cs" />
         <Compile Include="Stannum.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

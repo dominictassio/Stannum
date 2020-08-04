@@ -4,14 +4,14 @@ namespace Stannum.Ast
 {
     public class CallExpr : Expr
     {
-        public CallExpr(Expr callee, List<Expr> args)
+        public CallExpr(Expr callee, List<Expr> arguments)
         {
             Callee = callee;
-            Args = args;
+            Arguments = arguments;
         }
         
         public Expr Callee { get; }
         
-        public List<Expr> Args { get; }
+        public List<Expr> Arguments { get; }
     }
 }

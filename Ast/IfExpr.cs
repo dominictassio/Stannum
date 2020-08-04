@@ -2,7 +2,7 @@
 {
     public class IfExpr : Expr
     {
-        public IfExpr(Expr condition, Expr consequent, Expr alternative)
+        public IfExpr(Expr condition, BlockExpr consequent, Expr alternative)
         {
             Condition = condition;
             Consequent = consequent;
@@ -11,7 +11,7 @@
         
         public Expr Condition { get; }
         
-        public Expr Consequent { get; }
+        public BlockExpr Consequent { get; }
         
         public Expr Alternative { get; }
     }

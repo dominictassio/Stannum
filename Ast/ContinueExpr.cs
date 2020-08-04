@@ -2,7 +2,7 @@
 {
     public class ContinueExpr : Expr
     {
-        public ContinueExpr(string label)
+        public ContinueExpr(string label = null)
         {
             Label = label;
         }
