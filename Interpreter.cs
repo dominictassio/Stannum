@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Stannum.Ast;
 
 namespace Stannum
@@ -195,6 +196,38 @@ namespace Stannum
                 case ">":
                 case ">=":
                     return RelationalOperation(binary.Op, Evaluate(binary.Left), binary.Right);
+
+                case "++":
+                {
+                    var left = Evaluate(binary.Left);
+                    var right = Evaluate(binary.Right);
+
+                    switch (left)
+                    {
+                        case List<object> leftList when right is List<object> rightList:
+                        {
+                            var list = new List<object>();
+
+                            for (var i = 0; i < leftList.Count; i += 1)
+                            {
+                                list.Add(leftList[i]);
+                            }
+
+                            for (var i = 0; i < rightList.Count; i += 1)
+                            {
+                                list.Add(rightList[i]);
+                            }
+
+                            return list;
+                        }
+                        
+                        case string leftString when right is string rightString:
+                            return $"{leftString}{rightString}";
+                        
+                        default:
+                            throw new Exception("Operands must be both lists or both strings!");
+                    }
+                }
 
                 case "+":
                 case "-":

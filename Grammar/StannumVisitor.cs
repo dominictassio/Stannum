@@ -200,6 +200,20 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitRelationalSkip([NotNull] StannumParser.RelationalSkipContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>ConcatenativeSkip</c>
+	/// labeled alternative in <see cref="StannumParser.concatenative_"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitConcatenativeSkip([NotNull] StannumParser.ConcatenativeSkipContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>Concatenative</c>
+	/// labeled alternative in <see cref="StannumParser.concatenative_"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitConcatenative([NotNull] StannumParser.ConcatenativeContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>AdditiveSkip</c>
 	/// labeled alternative in <see cref="StannumParser.additive_"/>.
 	/// </summary>

@@ -56,6 +56,7 @@ namespace Stannum
                         line -= 1;
                         Console.WriteLine(e.Message);
                     }
+                    
                 }
             }
         }

@@ -302,6 +302,28 @@ public partial class StannumBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitRelationalSkip([NotNull] StannumParser.RelationalSkipContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by the <c>ConcatenativeSkip</c>
+	/// labeled alternative in <see cref="StannumParser.concatenative_"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitConcatenativeSkip([NotNull] StannumParser.ConcatenativeSkipContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>Concatenative</c>
+	/// labeled alternative in <see cref="StannumParser.concatenative_"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitConcatenative([NotNull] StannumParser.ConcatenativeContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by the <c>AdditiveSkip</c>
 	/// labeled alternative in <see cref="StannumParser.additive_"/>.
 	/// <para>

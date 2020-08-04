@@ -296,6 +296,21 @@ namespace Stannum
             return new BinaryExpr(left, context.Op.Text, right);
         }
 
+        public override AstNode VisitConcatenative(StannumParser.ConcatenativeContext context)
+        {
+            if (!(Visit(context.Left) is Expr left))
+            {
+                throw new Exception("Unrecognized expression!");
+            }
+
+            if (!(Visit(context.Right) is Expr right))
+            {
+                throw new Exception("Unrecognized expression!");
+            }
+
+            return new BinaryExpr(left, "++", right);
+        }
+
         public override AstNode VisitAdditive(StannumParser.AdditiveContext context)
         {
             if (!(Visit(context.Left) is Expr left))
@@ -417,17 +432,23 @@ namespace Stannum
             return new ContinueExpr(label.Value);
         }
 
+        public override AstNode VisitGrouped(StannumParser.GroupedContext context)
+        {
+            return Visit(context.Value);
+        }
+
         public override AstNode VisitIdentifier(StannumParser.IdentifierContext context)
         {
             var raw = context.GetText();
-            var first = raw.Substring(0, 1);
 
-            if (first == "$")
+            if (raw.Substring(0, 1) == "$")
             {
-                first = "";
+                raw = raw.Substring(1);
             }
             
+            var first = raw.Substring(0, 1);
             var rest = raw.Substring(1).Replace("_", "").ToLower();
+            
             return new Identifier(first + rest);
         }
 

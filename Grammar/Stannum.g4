@@ -62,8 +62,12 @@ equality_
     | Left=equality_ Op=('=='|'!=') Right=relational_ # Equality;
 
 relational_
-    : additive_ # RelationalSkip
-    | Left=relational_ Op=('<'|'>'|'<='|'>=') Right=additive_ # Relational;
+    : concatenative_ # RelationalSkip
+    | Left=relational_ Op=('<'|'>'|'<='|'>=') Right=concatenative_ # Relational;
+    
+concatenative_
+    : additive_ # ConcatenativeSkip
+    | Left=concatenative_ '++' Right=additive_ # Concatenative;
 
 additive_
     : multiplicative_ # AdditiveSkip
