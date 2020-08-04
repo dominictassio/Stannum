@@ -353,7 +353,7 @@ namespace Stannum
                 {
                     var left = Evaluate(binary.Left);
 
-                    if (op == "?." && left == null)
+                    if (binary.Op == "?." && left == null)
                     {
                         return null;
                     }
@@ -368,7 +368,7 @@ namespace Stannum
                         throw new RuntimeException("Can only use identifier as a field!");
                     }
 
-                    if (!op.Contains("."))
+                    if (!op.Contains(":"))
                     {
                         b = NumericalOperation(op.Substring(0, 1), record[identifier.Value], b);
                     }
@@ -392,7 +392,7 @@ namespace Stannum
 
                 case Identifier identifier:
                 {
-                    if (!op.Contains("."))
+                    if (!op.Contains(":"))
                     {
                         b = NumericalOperation(op.Substring(0, 1), Evaluate(identifier), b);
                     }

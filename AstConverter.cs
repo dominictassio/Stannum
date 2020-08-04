@@ -419,7 +419,16 @@ namespace Stannum
 
         public override AstNode VisitIdentifier(StannumParser.IdentifierContext context)
         {
-            return new Identifier(context.GetText());
+            var raw = context.GetText();
+            var first = raw.Substring(0, 1);
+
+            if (first == "$")
+            {
+                first = "";
+            }
+            
+            var rest = raw.Substring(1).Replace("_", "").ToLower();
+            return new Identifier(first + rest);
         }
 
         public override AstNode VisitIfElseExpr(StannumParser.IfElseExprContext context)
