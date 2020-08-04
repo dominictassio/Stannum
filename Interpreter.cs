@@ -160,11 +160,11 @@ namespace Stannum
             switch (binary.Op)
             {
                 case ":=":
-                // case "+=":
-                // case "-=":
-                // case "*=":
-                // case "/=":
-                // case "%=":
+                case "+=":
+                case "-=":
+                case "*=":
+                case "/=":
+                case "%=":
                     return AssignmentOperation(binary.Op, binary.Left, Evaluate(binary.Right));
 
                 case "??":
@@ -352,7 +352,7 @@ namespace Stannum
                 case BinaryExpr binary:
                 {
                     var left = Evaluate(binary.Left);
-                
+
                     if (op == "?." && left == null)
                     {
                         return null;
@@ -368,19 +368,40 @@ namespace Stannum
                         throw new RuntimeException("Can only use identifier as a field!");
                     }
 
+                    if (!op.Contains("."))
+                    {
+                        b = NumericalOperation(op.Substring(0, 1), record[identifier.Value], b);
+                    }
+
                     record[identifier.Value] = b;
+
+                    break;
+                }
+
+                case Identifier identifier when _locals.TryGetValue(identifier, out var distance):
+                {
+                    if (!op.Contains("."))
+                    {
+                        b = NumericalOperation(op.Substring(0, 1), Evaluate(identifier), b);
+                    }
+                    
+                    _environment.Assign(distance, identifier.Value, b);
                     
                     break;
                 }
-                
-                case Identifier identifier when _locals.TryGetValue(identifier, out var distance):
-                    _environment.Assign(distance, identifier.Value, b);
-                    break;
-                
+
                 case Identifier identifier:
+                {
+                    if (!op.Contains("."))
+                    {
+                        b = NumericalOperation(op.Substring(0, 1), Evaluate(identifier), b);
+                    }
+                    
                     _globals.Assign(0, identifier.Value, b);
+                    
                     break;
-                
+                }
+
                 default:
                     throw new RuntimeException("Could not assign to non-access or non-identifier!");
             }
