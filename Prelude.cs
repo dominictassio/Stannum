@@ -6,11 +6,11 @@ namespace Stannum
     {
         public Prelude()
         {
-            this["None"] = null;
-            this["True"] = true;
-            this["False"] = false;
+            Define("None", null);
+            Define("True", true);
+            Define("False", false);
             
-            this["exit"] = new Builtin(1, arguments =>
+            Define("exit", new Builtin(1, arguments =>
             {
                 if (!(arguments[0] is double number))
                 {
@@ -28,19 +28,25 @@ namespace Stannum
                 }
 
                 return null;
-            });
+            }));
 
-            this["print"] = new Builtin(1, arguments =>
+            Define("print", new Builtin(1, arguments =>
             {
-                Console.Write(arguments[0]);
+                Console.WriteLine(Interpreter.Stringify(arguments[0]));
                 return null;
-            });
-
-            this["printline"] = new Builtin(1, arguments =>
+            }));
+            
+            Define("write", new Builtin(1, arguments =>
             {
-                Console.WriteLine(arguments[0]);
+                Console.Write(Interpreter.Stringify(arguments[0]));
                 return null;
-            });
+            }));
+            
+            Define("writeline", new Builtin(1, arguments =>
+            {
+                Console.WriteLine(Interpreter.Stringify(arguments[0]));
+                return null;
+            }));
         }
     }
 }

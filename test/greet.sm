@@ -1,0 +1,10 @@
+﻿greet = (name) {
+    write("Hello, ");
+    write(name);
+    writeline("!");
+}
+
+main = () {
+    name = "World";
+    greet(name);
+}

@@ -6,20 +6,21 @@ namespace Stannum
 {
     public class Environment
     {
-        private readonly Dictionary<string, object> _values = new Dictionary<string, object>();
-
         public Environment(Environment enclosing = null)
         {
             Enclosing = enclosing;
+            Values = new Dictionary<string, object>();
         }
 
         public Environment Enclosing { get; }
+        
+        public Dictionary<string, object> Values { get; }
 
         public object this[string name]
         {
             get
             {
-                if (_values.TryGetValue(name, out var value))
+                if (Values.TryGetValue(name, out var value))
                 {
                     return value;
                 }
@@ -29,29 +30,37 @@ namespace Stannum
                     return Enclosing[name];
                 }
                 
-                throw new RuntimeException($"Undefined variable {name}.");
-            }
-
-            set
-            {
-                if (_values.ContainsKey(name))
-                {
-                    throw new Exception($"{name} already defined in environment!");
-                }
-
-                _values[name] = value;
+                throw new RuntimeException($"Undefined variable '{name}'!");
             }
         }
 
-        public object this[int distance, string name]
+        public void Define(string name, object value)
         {
-            get => Ancestor(distance)[name];
-            set => Ancestor(distance)[name] = value;
+            if (Values.ContainsKey(name))
+            {
+                throw new Exception($"Variable '{name}' is already defined!");
+            }
+
+            Values[name] = value;
         }
+
+        public void Assign(int distance, string name, object value)
+        {
+            var ancestor = Ancestor(distance);
+
+            if (!ancestor.Values.ContainsKey(name))
+            {
+                throw new Exception($"Variable '{name}' is not defined!");
+            }
+
+            ancestor.Values[name] = value;
+        }
+
+        public object this[int distance, string name] => Ancestor(distance)[name];
 
         public bool TryGetValue(string name, out object value)
         {
-            return _values.TryGetValue(name, out value);
+            return Values.TryGetValue(name, out value);
         }
 
         private Environment Ancestor(int distance)
@@ -70,9 +79,9 @@ namespace Stannum
         {
             Enclosing?.WriteTo(builder);
 
-            foreach (var name in _values.Keys)
+            foreach (var field in Values)
             {
-                builder.Append(name).Append(" = ").AppendLine(_values[name]?.ToString() ?? "None");
+                builder.Append(field.Key).Append(" = ").AppendLine(Interpreter.Stringify(field.Value));
             }
         }
 

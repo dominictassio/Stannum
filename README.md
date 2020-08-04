@@ -3,13 +3,13 @@ A mostly simple language, using a tree-walking interpreter, with hopefully more 
 
 ```
 greet = (name) {
-  print("Hello, ");
-  print(name);
-  printline("!);
+    write("Hello, ");
+    write(name);
+    writeline("!");
 }
 
 main = () {
-  name = "World";
-  greet(name);
+    name = "World";
+    greet(name);
 }
 ```

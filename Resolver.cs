@@ -29,6 +29,8 @@ namespace Stannum
 
         private void Resolve(Stmt statement)
         {
+            BeginScope();
+            
             switch (statement)
             {
                 case BlockStmt blockStmt:
@@ -52,6 +54,8 @@ namespace Stannum
                 default:
                     throw new ArgumentOutOfRangeException(nameof(statement));
             }
+            
+            EndScope();
         }
 
         private void Resolve(BlockStmt block)

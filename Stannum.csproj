@@ -114,6 +114,8 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="Grammar\Stannum.g4" />
+      <Content Include="test\greet.sm" />
+      <Content Include="test\print.sm" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

@@ -49,21 +49,6 @@ namespace Stannum
             _locals[expression] = depth;
         }
 
-        public void ExecuteMain()
-        {
-            if (!_environment.TryGetValue("main", out var main))
-            {
-                throw new RuntimeException("'main' not defined!");
-            }
-
-            if (!(main is ICallable function))
-            {
-                throw new RuntimeException("'main' is not callable!");
-            }
-
-            function.Call(this, new List<object>());
-        }
-
         private void Execute(Stmt statement)
         {
             switch (statement)
@@ -98,7 +83,7 @@ namespace Stannum
 
         private void Execute(DefStmt definition)
         {
-            _environment[definition.Name] = Evaluate(definition.Value);
+            _environment.Define(definition.Name, Evaluate(definition.Value));
         }
 
         private void Execute(ExprStmt expression)
@@ -174,6 +159,14 @@ namespace Stannum
         {
             switch (binary.Op)
             {
+                case ":=":
+                // case "+=":
+                // case "-=":
+                // case "*=":
+                // case "/=":
+                // case "%=":
+                    return AssignmentOperation(binary.Op, binary.Left, Evaluate(binary.Right));
+
                 case "??":
                     return Evaluate(binary.Left) ?? Evaluate(binary.Right);
 
@@ -325,6 +318,74 @@ namespace Stannum
                 default:
                     throw new Exception("Unrecognized unary operator!");
             }
+        }
+
+        public static string Stringify(object obj)
+        {
+            if (obj == null)
+            {
+                return "None";
+            }
+
+            if (obj is string s)
+            {
+                return $"\"{s}\"";
+            }
+
+            if (obj is Dictionary<string, object> record)
+            {
+                return $"{{ {string.Join(", ", record.Select(field => $"{field.Key} = {Stringify(field.Value)}"))} }}";
+            }
+
+            if (obj is List<object> list)
+            {
+                return $"[{string.Join(", ", list)}]";
+            }
+
+            return obj.ToString();
+        }
+
+        private object AssignmentOperation(string op, Expr a, object b)
+        {
+            switch (a)
+            {
+                case BinaryExpr binary:
+                {
+                    var left = Evaluate(binary.Left);
+                
+                    if (op == "?." && left == null)
+                    {
+                        return null;
+                    }
+
+                    if (!(left is Dictionary<string, object> record))
+                    {
+                        throw new RuntimeException("Can only access fields on records!");
+                    }
+
+                    if (!(binary.Right is Identifier identifier))
+                    {
+                        throw new RuntimeException("Can only use identifier as a field!");
+                    }
+
+                    record[identifier.Value] = b;
+                    
+                    break;
+                }
+                
+                case Identifier identifier when _locals.TryGetValue(identifier, out var distance):
+                    _environment.Assign(distance, identifier.Value, b);
+                    break;
+                
+                case Identifier identifier:
+                    _globals.Assign(0, identifier.Value, b);
+                    break;
+                
+                default:
+                    throw new RuntimeException("Could not assign to non-access or non-identifier!");
+            }
+
+            return b;
         }
 
         private static bool RelationalOperation(string op, object a, object b)

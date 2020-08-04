@@ -9,29 +9,45 @@ namespace Stannum
         object Call(Interpreter interpreter, List<object> arguments);
     }
 
-    public class Builtin : ICallable
+    public abstract class CallableBase : ICallable
     {
-        private readonly int _arity;
+        protected abstract int Arity { get; }
+        public abstract object Call(Interpreter interpreter, List<object> arguments);
+
+        protected void CheckArguments(List<object> arguments)
+        {
+            if (arguments.Count != Arity)
+            {
+                throw new RuntimeException($"Expected {Arity} arguments, but got {arguments.Count}.");
+            }
+        }
+        
+        public override string ToString()
+        {
+            return $"({Arity}) {{ ... }}";
+        }
+    }
+
+    public class Builtin : CallableBase
+    {
         private readonly Func<List<object>, object> _func;
 
         public Builtin(int arity, Func<List<object>, object> func)
         {
-            _arity = arity;
+            Arity = arity;
             _func = func;
         }
-        
-        public object Call(Interpreter interpreter, List<object> arguments)
+
+        protected override int Arity { get; }
+
+        public override object Call(Interpreter interpreter, List<object> arguments)
         {
-            if (arguments.Count != _arity)
-            {
-                throw new RuntimeException($"Expected {_arity} arguments, but got {arguments.Count}.");
-            }
-            
+            CheckArguments(arguments);
             return _func(arguments);
         }
     }
 
-    public class Lambda : ICallable
+    public class Lambda : CallableBase
     {
         private readonly List<string> _parameters;
         private readonly BlockStmt _body;
@@ -44,23 +60,22 @@ namespace Stannum
             _closure = closure;
         }
 
-        public object Call(Interpreter interpreter, List<object> arguments)
+        protected override int Arity => _parameters.Count;
+
+        public override object Call(Interpreter interpreter, List<object> arguments)
         {
-            if (arguments.Count != _parameters.Count)
-            {
-                throw new RuntimeException($"Expected {_parameters.Count} arguments, but got {arguments.Count}.");
-            }
-            
+            CheckArguments(arguments);
+
             var environment = new Environment(_closure);
 
             for (var i = 0; i < _parameters.Count; i += 1)
             {
-                environment[_parameters[i]] = arguments[i];
+                environment.Define(_parameters[i], arguments[i]);
             }
 
             try
             {
-                interpreter.Interpret(_body.Stmts, environment);
+                interpreter.Interpret(_body.Stmts, new Environment(environment));
             }
             catch (ReturnException @return)
             {
