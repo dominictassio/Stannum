@@ -1,10 +1,10 @@
 ﻿greet = (name) {
     write("Hello, ");
     write(name);
-    writeline("!");
+    write line("!");
 }
 
 main = () {
     name = "World";
-    greet(name);
+    greet(name); # expected => Hello, World! 
 }

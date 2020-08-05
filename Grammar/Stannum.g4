@@ -174,3 +174,5 @@ fragment ESCSEQ
     | 'u' [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9];
 
 WS: [ \n\r\t]+ -> skip;
+
+COMMENT: '#' ~[\r\n\f]* -> skip;

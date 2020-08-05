@@ -43,7 +43,7 @@ public partial class StannumParser : Parser {
 		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
 		T__31=32, T__32=33, T__33=34, T__34=35, T__35=36, T__36=37, BREAK=38, 
 		CONTINUE=39, ELSE=40, FOR=41, IF=42, MATCH=43, RETURN=44, STRUCT=45, VAR=46, 
-		WHILE=47, IDENTIFIER=48, NUMBER=49, STRING=50, WS=51;
+		WHILE=47, IDENTIFIER=48, NUMBER=49, STRING=50, WS=51, COMMENT=52;
 	public const int
 		RULE_program = 0, RULE_repl = 1, RULE_statement = 2, RULE_definition_ = 3, 
 		RULE_exprStmt = 4, RULE_forStmt = 5, RULE_ifStmt_ = 6, RULE_whileStmt = 7, 
@@ -78,7 +78,7 @@ public partial class StannumParser : Parser {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, "BREAK", "CONTINUE", "ELSE", "FOR", "IF", "MATCH", "RETURN", 
-		"STRUCT", "VAR", "WHILE", "IDENTIFIER", "NUMBER", "STRING", "WS"
+		"STRUCT", "VAR", "WHILE", "IDENTIFIER", "NUMBER", "STRING", "WS", "COMMENT"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -3274,7 +3274,7 @@ public partial class StannumParser : Parser {
 
 	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
-		'\x5964', '\x3', '\x35', '\x1BC', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
+		'\x5964', '\x3', '\x36', '\x1BC', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
 		'\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t', '\x5', '\x4', 
 		'\x6', '\t', '\x6', '\x4', '\a', '\t', '\a', '\x4', '\b', '\t', '\b', 
 		'\x4', '\t', '\t', '\t', '\x4', '\n', '\t', '\n', '\x4', '\v', '\t', '\v', 
