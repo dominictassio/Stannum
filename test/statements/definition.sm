@@ -1,5 +1,7 @@
 ﻿#
-# Definitions take the form of:
+# === DEFINITION STATEMENT ===
+#
+#   Definitions take the form of:
 #
 #       <identifier> = <expression> ;
 #
@@ -15,19 +17,27 @@
 #       <identifier> = if ... {...} else {...}
 #       <identifier> = () {...}
 #       <identifier> = {..., ..., ...}
+#
+
 
 Pi = 3.14159265358979323846;
+
 
 # Pi = 22 / 7;
 # === Runtime Error ===
 # Variable 'Pi' is already defined!
 
+
 def with block expr = { two = 2; ten = two + two * two * two; ten }
+
 
 def with if expr = if True { 1 } else { 0 }
 
+
 def with block lambda = () { return 42; }
 
+
 def with expr lambda = () => 6 * 9;
+
 
 def with record = { field1 = 1, field2 = 2, field3 = 3 }

@@ -199,7 +199,7 @@ namespace Stannum
                 case "<=":
                 case ">":
                 case ">=":
-                    return RelationalOperation(binary.Op, Evaluate(binary.Left), binary.Right);
+                    return RelationalOperation(binary.Op, Evaluate(binary.Left), Evaluate(binary.Right));
 
                 case "++":
                 {

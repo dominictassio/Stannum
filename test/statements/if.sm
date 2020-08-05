@@ -1,0 +1,80 @@
+﻿#
+# === IF STATEMENT ===
+#
+#   If statements take the form of:
+#
+#       if <expression> { ... }
+#
+#       if <expression> { ... } else { ... }
+#
+#       if <expression> { ... } else if { ... }
+#
+#       if <expression> { ... } else if { ... } else { ... }
+#
+#   The expression will be tested for truthiness (where
+# every value except None and False are True). If the
+# expression is truthy, then the consequent block is
+# executed. If the expression is falsy and there is an
+# alternative block, then it is executed. In the case of the
+# alternative being another if statement, then its
+# expression is tested for truthiness and the process
+# repeats.
+#   Only definition statements are allowed in the top-level
+# so the examples in the file are all within the main
+# definition.
+#
+
+
+main = () {
+
+    if True {
+        print("Hooray!");
+    }
+    # Expected => Hooray!
+    
+    
+    if False {
+        print("Hooray!");
+    }
+    # Expected =>
+    
+    
+    if True {
+        print("consequent");
+    } else {
+        print("alternative");
+    }
+    # Expected => consequent
+    
+    
+    if False {
+        print("consequent");
+    } else {
+        print("alternative");
+    }
+    # Expected => alternative
+    
+    
+    age = 35;
+    
+    if age <= 18 {
+        print("minor");
+    } else if age < 65 {
+        print("Adult");
+    } else {
+        print("Senior");
+    }
+    # Expected => Adult
+    
+    
+    if False {
+        print("False is false");
+    } else if None {
+        print("None is false");
+    } else if 0 {
+        print("0 is true");
+    } else if 1991 {
+        print("1991 is true");
+    }
+    # Expected => 0 is true
+}

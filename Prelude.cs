@@ -9,7 +9,7 @@ namespace Stannum
             Define("None", null);
             Define("True", true);
             Define("False", false);
-            
+
             Define("exit", new Builtin(1, arguments =>
             {
                 if (!(arguments[0] is double number))
@@ -32,19 +32,19 @@ namespace Stannum
 
             Define("print", new Builtin(1, arguments =>
             {
-                Console.WriteLine(Interpreter.Stringify(arguments[0]));
+                Console.WriteLine(arguments[0] is string s ? s : Interpreter.Stringify(arguments[0]));
                 return null;
             }));
-            
+
             Define("write", new Builtin(1, arguments =>
             {
-                Console.Write(Interpreter.Stringify(arguments[0]));
+                Console.Write(arguments[0] is string s ? s : Interpreter.Stringify(arguments[0]));
                 return null;
             }));
-            
+
             Define("writeline", new Builtin(1, arguments =>
             {
-                Console.WriteLine(Interpreter.Stringify(arguments[0]));
+                Console.WriteLine(arguments[0] is string s ? s : Interpreter.Stringify(arguments[0]));
                 return null;
             }));
         }

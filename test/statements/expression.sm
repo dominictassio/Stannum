@@ -1,0 +1,62 @@
+﻿#
+# === EXPRESSION STATEMENT ===
+#
+#   Expression statements take the form of:
+#
+#       <expression> ;
+#
+#   The expression can be any valid expression and the
+# result of evaluating that expression is discarded when
+# the statement is executed.
+#   Only definition statements are allowed in the top-level
+# so the examples in the file are all within the main
+# definition.
+#
+
+# These definitions are included for use in the examples.
+name = "Jack";
+forty two = 42;
+capital = "Topeka";
+person = { name = "Jill", age = 29 }
+neg = (n) { return -n; }
+
+main = () {
+
+    name := "Jill";
+    # Expected => "Jill"
+    
+    forty two += 1;
+    # Expected => 43
+    
+    name != capital;
+    # Expected => True
+    
+    capital ++ ", Kansas";
+    # Expected => "Topeka, Kansas"
+    
+    !True;
+    # Expected => False
+    
+    neg(-forty two);
+    # Expected => 42;
+    
+    person;
+    # Expected => { name = "John", age = 29 }
+    
+    # Note: This is an if expression.
+    if forty two == person.age {
+        print("The answer to life, the universe, and everything!");
+        "success!"
+    } else {
+        "failure!"
+    };
+    # Expected => "failure!"
+    
+    # Note: This is an immediately invoked lambda expression.
+    (a, b) { return a % b; }(26, 4);
+    # Expected => 2
+    
+    [1, 2, 3, 4];
+    # Expected => [1, 2, 3, 4]
+
+}

@@ -1,0 +1,43 @@
+﻿#
+# === WHILE STATEMENT ===
+#
+#   While statements take the form of:
+#
+#       while <expression> { ... }
+#
+#   The expression will be tested for truthiness (where
+# every value except None and False are True). If the
+# expression is truthy, then the body will be continually
+# executed as long as the expression is truthy. There is
+# the potential that the while loop will execute forever.
+#   Only definition statements are allowed in the top-level
+# so the examples in the file are all within the main
+# definition.
+#
+
+main = () {
+
+    count down = 10;
+    while count down > 0 {
+        write(count down -= 1);
+    }
+    write line("");
+    
+    counter = 5;
+    factorial = 1;
+    while counter > 1 {
+        factorial *= counter -= 1;
+    }
+    print(factorial);
+    
+    a = 0;
+    b = 1;
+    while a < 10_000 {
+        write(a);
+        write(" ");
+        temp = a;
+        a := b;
+        b += temp;
+    }
+    write line("");
+}

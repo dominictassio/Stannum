@@ -171,11 +171,6 @@ namespace Stannum
 
         public override AstNode VisitWhileStmt(StannumParser.WhileStmtContext context)
         {
-            if (!(Visit(context.Label) is Identifier label))
-            {
-                throw new Exception("Unrecognized identifier!");
-            }
-
             if (!(Visit(context.Value) is Expr value))
             {
                 throw new Exception("Unrecognized expression!");
@@ -184,6 +179,16 @@ namespace Stannum
             if (!(Visit(context.Body) is BlockStmt body))
             {
                 throw new Exception("Unrecognized block!");
+            }
+
+            if (context.Label == null)
+            {
+                return new WhileStmt(null, value, body);
+            }
+            
+            if (!(Visit(context.Label) is Identifier label))
+            {
+                throw new Exception("Unrecognized identifier!");
             }
 
             return new WhileStmt(label.Value, value, body);

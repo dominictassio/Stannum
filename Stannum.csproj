@@ -114,9 +114,12 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="Grammar\Stannum.g4" />
-      <Content Include="test\assignment\definition.sm" />
       <Content Include="test\greet.sm" />
       <Content Include="test\print.sm" />
+      <Content Include="test\statements\definition.sm" />
+      <Content Include="test\statements\expression.sm" />
+      <Content Include="test\statements\if.sm" />
+      <Content Include="test\statements\while.sm" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
