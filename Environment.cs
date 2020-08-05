@@ -38,22 +38,27 @@ namespace Stannum
         {
             if (Values.ContainsKey(name))
             {
-                throw new Exception($"Variable '{name}' is already defined!");
+                throw new RuntimeException($"Variable '{name}' is already defined!");
             }
 
             Values[name] = value;
         }
 
-        public void Assign(int distance, string name, object value)
+        public void Assign(string name, object value)
         {
-            var ancestor = Ancestor(distance);
-
-            if (!ancestor.Values.ContainsKey(name))
+            if (Values.ContainsKey(name))
             {
-                throw new Exception($"Variable '{name}' is not defined!");
+                Values[name] = value;
             }
 
-            ancestor.Values[name] = value;
+            else if (Enclosing != null)
+            {
+                Enclosing.Assign(name, value);
+            }
+            else
+            {
+                throw new RuntimeException($"Variable '{name}' is not defined!");
+            }
         }
 
         public object this[int distance, string name] => Ancestor(distance)[name];

@@ -72,15 +72,18 @@ namespace Stannum
 
             if (!Environment.TryGetValue("main", out var main))
             {
-                throw new Exception("Variable 'main' is not defined!");
+                return;
             }
 
-            if (!(main is ICallable function))
+            if (main is ICallable function)
             {
-                throw new Exception("Variable 'main' is not callable!");
+                function.Call(Interpreter, new List<object>());
             }
-
-            function.Call(Interpreter, new List<object>());
+            else
+            {
+                Console.WriteLine("=== Runtime Error ===");
+                Console.WriteLine("Variable 'main' is not callable!");
+            }
         }
 
         private static void Run(string source, bool repl)

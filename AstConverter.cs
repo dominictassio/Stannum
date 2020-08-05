@@ -35,7 +35,7 @@ namespace Stannum
                 {
                     throw new Exception("Unrecognized statement!");
                 }
-                
+
                 statements.Add(statement);
             }
 
@@ -45,7 +45,7 @@ namespace Stannum
                 {
                     throw new Exception("Unrecognized expression!");
                 }
-                
+
                 statements.Add(new ExprStmt(expression));
             }
 
@@ -445,10 +445,10 @@ namespace Stannum
             {
                 raw = raw.Substring(1);
             }
-            
+
             var first = raw.Substring(0, 1);
             var rest = raw.Substring(1).Replace("_", "").ToLower();
-            
+
             return new Identifier(first + rest);
         }
 

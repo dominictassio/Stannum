@@ -24,7 +24,7 @@ namespace Stannum
         
         public override string ToString()
         {
-            return $"({Arity}) {{ ... }}";
+            return $"({Arity}){{...}}";
         }
     }
 
@@ -75,7 +75,7 @@ namespace Stannum
 
             try
             {
-                interpreter.Interpret(_body.Stmts, new Environment(environment));
+                interpreter.ExecuteBlock(_body.Stmts, environment);
             }
             catch (ReturnException @return)
             {

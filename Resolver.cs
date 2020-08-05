@@ -280,9 +280,7 @@ namespace Stannum
             for (var i = scopes.Length - 1; i >= 0; i -= 1)
             {
                 if (!scopes[i].ContainsKey(name)) continue;
-                
-                _interpreter.Resolve(expression, scopes.Length - 1 - i);
-                    
+
                 return;
             }
         }

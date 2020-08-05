@@ -1,35 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Stannum.Ast;
 
 namespace Stannum
 {
     public class Interpreter
     {
-        private readonly Environment _globals;
-        private readonly Dictionary<Expr, int> _locals;
         private Environment _environment;
 
-        public Interpreter(Environment globals = null)
+        public Interpreter(Environment environment = null)
         {
-            _globals = globals ?? new Environment();
-            _locals = new Dictionary<Expr, int>();
-            _environment = _globals;
+            _environment = environment ?? new Environment();
         }
 
-        public void Interpret(List<Stmt> statements, Environment environment = null)
+        public void Interpret(List<Stmt> statements)
         {
-            var previous = _environment;
-
             try
             {
-                if (environment != null)
-                {
-                    _environment = environment;
-                }
-
                 for (var i = 0; i < statements.Count; i += 1)
                 {
                     Execute(statements[i]);
@@ -37,17 +25,33 @@ namespace Stannum
             }
             catch (RuntimeException e)
             {
+                Console.WriteLine("=== Runtime Error ===");
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void ExecuteBlock(List<Stmt> statements, Environment environment)
+        {
+            var previous = _environment;
+
+            try
+            {
+                _environment = new Environment(environment);
+                
+                for (var i = 0; i < statements.Count; i += 1)
+                {
+                    Execute(statements[i]);
+                }
+            }
+            catch (RuntimeException e)
+            {
+                Console.WriteLine("=== Runtime Error ===");
                 Console.WriteLine(e.Message);
             }
             finally
             {
                 _environment = previous;
             }
-        }
-
-        public void Resolve(Expr expression, int depth)
-        {
-            _locals[expression] = depth;
         }
 
         private void Execute(Stmt statement)
@@ -79,7 +83,7 @@ namespace Stannum
 
         private void Execute(BlockStmt block)
         {
-            Interpret(block.Stmts, new Environment(_environment));
+            ExecuteBlock(block.Stmts, new Environment(_environment));
         }
 
         private void Execute(DefStmt definition)
@@ -220,10 +224,10 @@ namespace Stannum
 
                             return list;
                         }
-                        
+
                         case string leftString when right is string rightString:
                             return $"{leftString}{rightString}";
-                        
+
                         default:
                             throw new Exception("Operands must be both lists or both strings!");
                     }
@@ -251,7 +255,7 @@ namespace Stannum
         {
             _environment = new Environment(_environment);
 
-            Interpret(block.Stmts, _environment);
+            Interpret(block.Stmts);
 
             var result = Evaluate(block.Value);
 
@@ -285,9 +289,7 @@ namespace Stannum
 
         private object Evaluate(Identifier identifier)
         {
-            return _locals.TryGetValue(identifier, out var distance)
-                ? _environment[distance, identifier.Value]
-                : _globals[identifier.Value];
+            return _environment[identifier.Value];
         }
 
         private object Evaluate(IfExpr @if)
@@ -411,27 +413,15 @@ namespace Stannum
                     break;
                 }
 
-                case Identifier identifier when _locals.TryGetValue(identifier, out var distance):
-                {
-                    if (!op.Contains("."))
-                    {
-                        b = NumericalOperation(op.Substring(0, 1), Evaluate(identifier), b);
-                    }
-                    
-                    _environment.Assign(distance, identifier.Value, b);
-                    
-                    break;
-                }
-
                 case Identifier identifier:
                 {
                     if (!op.Contains(":"))
                     {
                         b = NumericalOperation(op.Substring(0, 1), Evaluate(identifier), b);
                     }
-                    
-                    _globals.Assign(0, identifier.Value, b);
-                    
+
+                    _environment.Assign(identifier.Value, b);
+
                     break;
                 }
 
