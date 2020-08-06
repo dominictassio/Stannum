@@ -257,18 +257,32 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitPrefix([NotNull] StannumParser.PrefixContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>Call</c>
-	/// labeled alternative in <see cref="StannumParser.call_"/>.
+	/// labeled alternative in <see cref="StannumParser.accessOrCall"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitCall([NotNull] StannumParser.CallContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>CallSkip</c>
-	/// labeled alternative in <see cref="StannumParser.call_"/>.
+	/// Visit a parse tree produced by the <c>AccessOrCallSkip</c>
+	/// labeled alternative in <see cref="StannumParser.accessOrCall"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitCallSkip([NotNull] StannumParser.CallSkipContext context);
+	Result VisitAccessOrCallSkip([NotNull] StannumParser.AccessOrCallSkipContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>Access</c>
+	/// labeled alternative in <see cref="StannumParser.accessOrCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAccess([NotNull] StannumParser.AccessContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>MethodCall</c>
+	/// labeled alternative in <see cref="StannumParser.accessOrCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMethodCall([NotNull] StannumParser.MethodCallContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.primary"/>.
 	/// </summary>
@@ -281,20 +295,6 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitPrimaryWithBlock([NotNull] StannumParser.PrimaryWithBlockContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>Access</c>
-	/// labeled alternative in <see cref="StannumParser.access_"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitAccess([NotNull] StannumParser.AccessContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>AccessSkip</c>
-	/// labeled alternative in <see cref="StannumParser.access_"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitAccessSkip([NotNull] StannumParser.AccessSkipContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.blockExpr"/>.
 	/// </summary>

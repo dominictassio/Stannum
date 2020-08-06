@@ -43,7 +43,7 @@ expression: assignment_;
 
 assignment_
     : coalesce_ # AssignmentSkip
-    | Left=access_ Op=(':='|'+='|'-='|'*='|'/='|'%=') Right=assignment_ # Assignment;
+    | Left=accessOrCall Op=(':='|'+='|'-='|'*='|'/='|'%=') Right=assignment_ # Assignment;
 
 coalesce_
     : logicalOr_ # CoalesceSkip
@@ -78,19 +78,21 @@ multiplicative_
     | Left=multiplicative_ Op=('*'|'/'|'%') Right=prefix_# Multiplicative;
 
 prefix_
-    : call_ # PrefixSkip
+    : accessOrCall # PrefixSkip
     | Op=('!'|'-') Operand=prefix_ # Prefix;
     
-call_
-    : primary # CallSkip
-    | Callee=call_ '(' (Args+=expression ',')* Args+=expression? ')' # Call;
+accessOrCall
+    : primary # AccessOrCallSkip
+    | Subject=accessOrCall Op=('.'|'?.') Field=identifier # Access
+    | Callee=accessOrCall '(' (Args+=expression ',')* Args+=expression? ')' # Call
+    | Subject=accessOrCall Op=(':'|'?:') Field=identifier '(' (Args+=expression ',')* Args+=expression? ')' # MethodCall;
 
 primary
-    : access_
-    | blockExpr
+    : blockExpr
     | breakExpr
     | continueExpr
     | grouped
+    | identifier
     | ifExpr
     | lambdaWithBlock
     | lambdaWithExpr
@@ -102,10 +104,6 @@ primaryWithBlock
     | ifExpr
     | lambdaWithBlock
     | record;
-    
-access_
-    : identifier # AccessSkip
-    | Left=access_ Op=('.'|'?.') Right=identifier # Access;
 
 blockExpr: '{' Stmts+=statement* Value=expression '}';
 

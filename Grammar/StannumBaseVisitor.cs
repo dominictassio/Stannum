@@ -391,7 +391,7 @@ public partial class StannumBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	public virtual Result VisitPrefix([NotNull] StannumParser.PrefixContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by the <c>Call</c>
-	/// labeled alternative in <see cref="StannumParser.call_"/>.
+	/// labeled alternative in <see cref="StannumParser.accessOrCall"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -401,8 +401,8 @@ public partial class StannumBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitCall([NotNull] StannumParser.CallContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>CallSkip</c>
-	/// labeled alternative in <see cref="StannumParser.call_"/>.
+	/// Visit a parse tree produced by the <c>AccessOrCallSkip</c>
+	/// labeled alternative in <see cref="StannumParser.accessOrCall"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -410,7 +410,29 @@ public partial class StannumBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitCallSkip([NotNull] StannumParser.CallSkipContext context) { return VisitChildren(context); }
+	public virtual Result VisitAccessOrCallSkip([NotNull] StannumParser.AccessOrCallSkipContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>Access</c>
+	/// labeled alternative in <see cref="StannumParser.accessOrCall"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitAccess([NotNull] StannumParser.AccessContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>MethodCall</c>
+	/// labeled alternative in <see cref="StannumParser.accessOrCall"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitMethodCall([NotNull] StannumParser.MethodCallContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.primary"/>.
 	/// <para>
@@ -431,28 +453,6 @@ public partial class StannumBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitPrimaryWithBlock([NotNull] StannumParser.PrimaryWithBlockContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by the <c>Access</c>
-	/// labeled alternative in <see cref="StannumParser.access_"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitAccess([NotNull] StannumParser.AccessContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by the <c>AccessSkip</c>
-	/// labeled alternative in <see cref="StannumParser.access_"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitAccessSkip([NotNull] StannumParser.AccessSkipContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.blockExpr"/>.
 	/// <para>

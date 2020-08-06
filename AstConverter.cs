@@ -356,6 +356,21 @@ namespace Stannum
             return new UnaryExpr(context.Op.Text, operand);
         }
 
+        public override AstNode VisitAccess(StannumParser.AccessContext context)
+        {
+            if (!(Visit(context.Subject) is Expr subject))
+            {
+                throw new Exception("Unrecognized expression!");
+            }
+
+            if (!(Visit(context.Field) is Identifier field))
+            {
+                throw new Exception("Unrecognized identifier!");
+            }
+            
+            return new BinaryExpr(subject, context.Op.Text, field);
+        }
+
         public override AstNode VisitCall(StannumParser.CallContext context)
         {
             if (!(Visit(context.Callee) is Expr callee))
@@ -363,26 +378,50 @@ namespace Stannum
                 throw new Exception("Unrecognized expression!");
             }
 
-            var args = new List<Expr>();
+            var arguments = new List<Expr>();
 
             for (var i = 0; i < context._Args.Count; i += 1)
             {
-                if (!(Visit(context._Args[i]) is Expr arg))
+                if (!(Visit(context._Args[i]) is Expr argument))
                 {
                     throw new Exception("Unrecognized expression!");
                 }
 
-                args.Add(arg);
+                arguments.Add(argument);
             }
 
-            return new CallExpr(callee, args);
+            return new CallExpr(callee, arguments);
         }
 
-        public override AstNode VisitAccess(StannumParser.AccessContext context)
+        public override AstNode VisitMethodCall(StannumParser.MethodCallContext context)
         {
-            return !(Visit(context.Left) is Identifier left) || !(Visit(context.Right) is Identifier right)
-                ? throw new Exception("Unrecognized identifier!")
-                : new BinaryExpr(left, context.Op.Text, right);
+            var arguments = new List<Expr>();
+            
+            if (!(Visit(context.Subject) is Expr subject))
+            {
+                throw new Exception("Unrecognized expression!");
+            }
+            
+            arguments.Add(subject);
+            
+            if (!(Visit(context.Field) is Identifier field))
+            {
+                throw new Exception("Unrecognized identifier!");
+            }
+            
+            var callee = new BinaryExpr(subject, context.Op.Text.Replace(':', '.'), field);
+            
+            for (var i = 0; i < context._Args.Count; i += 1)
+            {
+                if (!(Visit(context._Args[i]) is Expr argument))
+                {
+                    throw new Exception("Unrecognized expression!");
+                }
+
+                arguments.Add(argument);
+            }
+            
+            return new CallExpr(callee, arguments);
         }
 
         public override AstNode VisitBlockExpr(StannumParser.BlockExprContext context)
