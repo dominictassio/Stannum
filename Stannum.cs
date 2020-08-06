@@ -17,19 +17,26 @@ namespace Stannum
 
         public static void Main(string[] args)
         {
-            switch (args.Length)
+            try
             {
-                case 0:
-                    RunRepl();
-                    break;
+                switch (args.Length)
+                {
+                    case 0:
+                        RunRepl();
+                        break;
 
-                case 1:
-                    RunFile(args[0]);
-                    break;
+                    case 1:
+                        RunFile(args[0]);
+                        break;
 
-                default:
-                    Console.WriteLine("Usage: stannum [file]");
-                    break;
+                    default:
+                        Console.WriteLine("Usage: stannum [file]");
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
 
@@ -52,18 +59,7 @@ namespace Stannum
                 }
                 else
                 {
-                    try
-                    {
-                        Run(source, true);
-                    }
-                    // catch (Exception e)
-                    // {
-                    //     Console.WriteLine(e.Message);
-                    // }
-                    finally
-                    {
-                        
-                    }
+                    Run(source, true);
                 }
             }
         }
