@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Stannum.Ast
+﻿namespace Stannum.Ast
 {
     public class Literal : Expr
     {

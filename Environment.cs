@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace Stannum
@@ -61,23 +60,14 @@ namespace Stannum
             }
         }
 
-        public object this[int distance, string name] => Ancestor(distance)[name];
+        public bool ContainsKey(string name)
+        {
+            return Values.ContainsKey(name);
+        }
 
         public bool TryGetValue(string name, out object value)
         {
             return Values.TryGetValue(name, out value);
-        }
-
-        private Environment Ancestor(int distance)
-        {
-            var environment = this;
-
-            for (var i = 0; i < distance; i += 1)
-            {
-                environment = environment.Enclosing ?? throw new Exception("Ancestor depth too deep!");
-            }
-
-            return environment;
         }
 
         private void WriteTo(StringBuilder builder)
@@ -86,6 +76,11 @@ namespace Stannum
 
             foreach (var field in Values)
             {
+                if (char.IsDigit(field.Key[0]))
+                {
+                    builder.Append("$");
+                }
+                
                 builder.Append(field.Key).Append(" = ").AppendLine(Interpreter.Stringify(field.Value));
             }
         }

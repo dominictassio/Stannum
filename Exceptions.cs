@@ -16,7 +16,7 @@ namespace Stannum
         {
             Label = label;
         }
-        
+
         public string Label { get; }
     }
 
@@ -26,7 +26,7 @@ namespace Stannum
         {
             Label = label;
         }
-        
+
         public string Label { get; }
     }
 
@@ -36,7 +36,7 @@ namespace Stannum
         {
             Value = value;
         }
-        
+
         public object Value { get; }
     }
 }

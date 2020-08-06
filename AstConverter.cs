@@ -8,7 +8,7 @@ namespace Stannum
 {
     public class AstConverter : StannumParserBaseVisitor<AstNode>
     {
-        public List<Stmt> Convert(StannumParser.ProgramContext context)
+        public List<Stmt> ConvertProgram(StannumParser.ProgramContext context)
         {
             var definitions = new List<Stmt>();
 
@@ -25,7 +25,7 @@ namespace Stannum
             return definitions;
         }
 
-        public List<Stmt> Convert(StannumParser.ReplContext context)
+        public List<Stmt> ConvertRepl(StannumParser.ReplContext context, string name)
         {
             var statements = new List<Stmt>();
 
@@ -39,15 +39,23 @@ namespace Stannum
                 statements.Add(statement);
             }
 
-            if (context.Value != null)
+            if (context.Value == null)
             {
-                if (!(Visit(context.Value) is Expr expression))
-                {
-                    throw new Exception("Unrecognized expression!");
-                }
-
-                statements.Add(new ExprStmt(expression));
+                return statements;
             }
+
+            if (!(Visit(context.Value) is Expr expression))
+            {
+                throw new Exception("Unrecognized expression!");
+            }
+
+            statements.Add(new DefStmt(name, expression));
+
+            statements.Add(new ExprStmt(new CallExpr(new Literal(new Builtin(1, arguments =>
+            {
+                Console.WriteLine(Interpreter.Stringify(arguments[0]));
+                return null;
+            })), new List<Expr> {new Identifier(name)})));
 
             return statements;
         }
@@ -185,7 +193,7 @@ namespace Stannum
             {
                 return new WhileStmt(null, value, body);
             }
-            
+
             if (!(Visit(context.Label) is Identifier label))
             {
                 throw new Exception("Unrecognized identifier!");
@@ -367,7 +375,7 @@ namespace Stannum
             {
                 throw new Exception("Unrecognized identifier!");
             }
-            
+
             return new BinaryExpr(subject, context.Op.Text, field);
         }
 
@@ -396,21 +404,21 @@ namespace Stannum
         public override AstNode VisitMethodCall(StannumParser.MethodCallContext context)
         {
             var arguments = new List<Expr>();
-            
+
             if (!(Visit(context.Subject) is Expr subject))
             {
                 throw new Exception("Unrecognized expression!");
             }
-            
+
             arguments.Add(subject);
-            
+
             if (!(Visit(context.Field) is Identifier field))
             {
                 throw new Exception("Unrecognized identifier!");
             }
-            
+
             var callee = new BinaryExpr(subject, ".", field);
-            
+
             for (var i = 0; i < context._Args.Count; i += 1)
             {
                 if (!(Visit(context._Args[i]) is Expr argument))
@@ -420,7 +428,7 @@ namespace Stannum
 
                 arguments.Add(argument);
             }
-            
+
             return new CallExpr(callee, arguments);
         }
 
@@ -663,7 +671,7 @@ namespace Stannum
             {
                 throw new Exception("Unrecognized expression!");
             }
-            
+
             return new RecordField(name.Value, value);
         }
 

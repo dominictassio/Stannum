@@ -8,8 +8,12 @@ namespace Stannum
 {
     internal static class Stannum
     {
+        private const string Version = "alpha";
+        private static readonly AstConverter Converter = new AstConverter();
         private static readonly Environment Environment = new Environment(new Prelude());
         private static readonly Interpreter Interpreter = new Interpreter(Environment);
+        private static readonly Resolver Resolver = new Resolver(Interpreter);
+        private static int _replAnonymous;
 
         public static void Main(string[] args)
         {
@@ -31,9 +35,11 @@ namespace Stannum
 
         private static void RunRepl()
         {
-            for (var line = 1; ; line += 1)
+            Console.WriteLine($"Stannum {Version} | Type .help for more information.");
+            
+            while (true)
             {
-                var source = Prompt($"repl:{line}> ");
+                var source = Prompt(">>> ");
 
                 if (source == null || source == "\u0004")
                 {
@@ -42,7 +48,6 @@ namespace Stannum
 
                 if (source.StartsWith("."))
                 {
-                    line -= 1;
                     HandleCommand(source);
                 }
                 else
@@ -51,12 +56,14 @@ namespace Stannum
                     {
                         Run(source, true);
                     }
-                    catch (Exception e)
+                    // catch (Exception e)
+                    // {
+                    //     Console.WriteLine(e.Message);
+                    // }
+                    finally
                     {
-                        line -= 1;
-                        Console.WriteLine(e.Message);
+                        
                     }
-                    
                 }
             }
         }
@@ -72,18 +79,19 @@ namespace Stannum
 
             if (!Environment.TryGetValue("main", out var main))
             {
+                Console.WriteLine("=== Runtime Error ===");
+                Console.WriteLine("Variable 'main' is not defined!");
                 return;
             }
 
-            if (main is ICallable function)
-            {
-                function.Call(Interpreter, new List<object>());
-            }
-            else
+            if (!(main is ICallable function))
             {
                 Console.WriteLine("=== Runtime Error ===");
                 Console.WriteLine("Variable 'main' is not callable!");
+                return;
             }
+
+            function.Call(Interpreter, new List<object>());
         }
 
         private static void Run(string source, bool repl)
@@ -92,12 +100,26 @@ namespace Stannum
             var lexer = new StannumLexer(input);
             var tokens = new CommonTokenStream(lexer);
             var parser = new StannumParser(tokens) {ErrorHandler = new BailErrorStrategy()};
-            var converter = new AstConverter();
-            var ast = repl ? converter.Convert(parser.repl()) : converter.Convert(parser.program());
-            var resolver = new Resolver(Interpreter);
 
-            resolver.Resolve(ast);
-            Interpreter.Interpret(ast);
+            if (repl)
+            {
+                var ast = Converter.ConvertRepl(parser.repl(), _replAnonymous.ToString());
+                
+                Resolver.Resolve(ast);
+                Interpreter.Interpret(ast);
+
+                if (Environment.ContainsKey(_replAnonymous.ToString()))
+                {
+                    _replAnonymous += 1;
+                }
+            }
+            else
+            {
+                var ast = Converter.ConvertProgram(parser.program());
+                
+                Resolver.Resolve(ast);
+                Interpreter.Interpret(ast);
+            }
         }
 
         private static string Prompt(string output)
@@ -112,24 +134,29 @@ namespace Stannum
             {
                 case ".env":
                 case ".environment":
+                    Console.WriteLine("=== ENVIRONMENT ===");
                     Console.WriteLine(Environment);
+                    break;
+                
+                case ".h":
+                case ".help":
+                    Console.WriteLine("=== HELP ===");
+                    Console.WriteLine("Available commands");
+                    Console.WriteLine(".environment, .env:\tPrints all the defined names in the environment.");
+                    Console.WriteLine(".help, .h:\t\tPrints this message.");
+                    Console.WriteLine(".quit, .q:\t\tQuits the REPL.\n");
                     break;
 
                 case ".q":
                 case ".quit":
+                    Console.WriteLine("Bye.\n");
                     System.Environment.Exit(0);
                     break;
 
                 default:
-                    Console.WriteLine("?");
+                    Console.WriteLine("?\n");
                     break;
             }
-        }
-
-        private enum RunType
-        {
-            File,
-            Repl
         }
     }
 }
