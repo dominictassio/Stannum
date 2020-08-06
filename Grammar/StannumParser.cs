@@ -53,7 +53,7 @@ public partial class StannumParser : Parser {
 		RULE_prefix_ = 19, RULE_accessOrCall = 20, RULE_primary = 21, RULE_primaryWithBlock = 22, 
 		RULE_blockExpr = 23, RULE_breakExpr = 24, RULE_continueExpr = 25, RULE_grouped = 26, 
 		RULE_identifier = 27, RULE_ifExpr = 28, RULE_lambdaWithBlock = 29, RULE_lambdaWithExpr = 30, 
-		RULE_literal = 31, RULE_list = 32, RULE_record = 33, RULE_recordMember = 34, 
+		RULE_literal = 31, RULE_list = 32, RULE_record = 33, RULE_recordField = 34, 
 		RULE_returnExpr = 35, RULE_keyword = 36;
 	public static readonly string[] ruleNames = {
 		"program", "repl", "statement", "definition_", "exprStmt", "forStmt", 
@@ -62,7 +62,7 @@ public partial class StannumParser : Parser {
 		"additive_", "multiplicative_", "prefix_", "accessOrCall", "primary", 
 		"primaryWithBlock", "blockExpr", "breakExpr", "continueExpr", "grouped", 
 		"identifier", "ifExpr", "lambdaWithBlock", "lambdaWithExpr", "literal", 
-		"list", "record", "recordMember", "returnExpr", "keyword"
+		"list", "record", "recordField", "returnExpr", "keyword"
 	};
 
 	private static readonly string[] _LiteralNames = {
@@ -2980,13 +2980,13 @@ public partial class StannumParser : Parser {
 	}
 
 	public partial class RecordContext : ParserRuleContext {
-		public RecordMemberContext _recordMember;
-		public IList<RecordMemberContext> _Elems = new List<RecordMemberContext>();
-		public RecordMemberContext[] recordMember() {
-			return GetRuleContexts<RecordMemberContext>();
+		public RecordFieldContext _recordField;
+		public IList<RecordFieldContext> _Fields = new List<RecordFieldContext>();
+		public RecordFieldContext[] recordField() {
+			return GetRuleContexts<RecordFieldContext>();
 		}
-		public RecordMemberContext recordMember(int i) {
-			return GetRuleContext<RecordMemberContext>(i);
+		public RecordFieldContext recordField(int i) {
+			return GetRuleContext<RecordFieldContext>(i);
 		}
 		public RecordContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -3010,8 +3010,6 @@ public partial class StannumParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 424; Match(T__4);
-			State = 425; _localctx._recordMember = recordMember();
-			_localctx._Elems.Add(_localctx._recordMember);
 			State = 430;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,42,Context);
@@ -3019,9 +3017,9 @@ public partial class StannumParser : Parser {
 				if ( _alt==1 ) {
 					{
 					{
+					State = 425; _localctx._recordField = recordField();
+					_localctx._Fields.Add(_localctx._recordField);
 					State = 426; Match(T__31);
-					State = 427; _localctx._recordMember = recordMember();
-					_localctx._Elems.Add(_localctx._recordMember);
 					}
 					} 
 				}
@@ -3032,9 +3030,10 @@ public partial class StannumParser : Parser {
 			State = 434;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			if (_la==T__31) {
+			if (_la==T__33 || _la==IDENTIFIER) {
 				{
-				State = 433; Match(T__31);
+				State = 433; _localctx._recordField = recordField();
+				_localctx._Fields.Add(_localctx._recordField);
 				}
 			}
 
@@ -3052,7 +3051,7 @@ public partial class StannumParser : Parser {
 		return _localctx;
 	}
 
-	public partial class RecordMemberContext : ParserRuleContext {
+	public partial class RecordFieldContext : ParserRuleContext {
 		public IdentifierContext Name;
 		public ExpressionContext Value;
 		public IdentifierContext identifier() {
@@ -3061,22 +3060,22 @@ public partial class StannumParser : Parser {
 		public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
-		public RecordMemberContext(ParserRuleContext parent, int invokingState)
+		public RecordFieldContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_recordMember; } }
+		public override int RuleIndex { get { return RULE_recordField; } }
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IStannumVisitor<TResult> typedVisitor = visitor as IStannumVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitRecordMember(this);
+			if (typedVisitor != null) return typedVisitor.VisitRecordField(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public RecordMemberContext recordMember() {
-		RecordMemberContext _localctx = new RecordMemberContext(Context, State);
-		EnterRule(_localctx, 68, RULE_recordMember);
+	public RecordFieldContext recordField() {
+		RecordFieldContext _localctx = new RecordFieldContext(Context, State);
+		EnterRule(_localctx, 68, RULE_recordField);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
@@ -3631,28 +3630,28 @@ public partial class StannumParser : Parser {
 		'\x1A5', '\x3', '\x2', '\x2', '\x2', '\x1A6', '\x1A7', '\x3', '\x2', '\x2', 
 		'\x2', '\x1A7', '\x1A8', '\x3', '\x2', '\x2', '\x2', '\x1A8', '\x1A9', 
 		'\a', '\'', '\x2', '\x2', '\x1A9', '\x43', '\x3', '\x2', '\x2', '\x2', 
-		'\x1AA', '\x1AB', '\a', '\a', '\x2', '\x2', '\x1AB', '\x1B0', '\x5', '\x46', 
+		'\x1AA', '\x1B0', '\a', '\a', '\x2', '\x2', '\x1AB', '\x1AC', '\x5', '\x46', 
 		'$', '\x2', '\x1AC', '\x1AD', '\a', '\"', '\x2', '\x2', '\x1AD', '\x1AF', 
-		'\x5', '\x46', '$', '\x2', '\x1AE', '\x1AC', '\x3', '\x2', '\x2', '\x2', 
+		'\x3', '\x2', '\x2', '\x2', '\x1AE', '\x1AB', '\x3', '\x2', '\x2', '\x2', 
 		'\x1AF', '\x1B2', '\x3', '\x2', '\x2', '\x2', '\x1B0', '\x1AE', '\x3', 
 		'\x2', '\x2', '\x2', '\x1B0', '\x1B1', '\x3', '\x2', '\x2', '\x2', '\x1B1', 
 		'\x1B4', '\x3', '\x2', '\x2', '\x2', '\x1B2', '\x1B0', '\x3', '\x2', '\x2', 
-		'\x2', '\x1B3', '\x1B5', '\a', '\"', '\x2', '\x2', '\x1B4', '\x1B3', '\x3', 
-		'\x2', '\x2', '\x2', '\x1B4', '\x1B5', '\x3', '\x2', '\x2', '\x2', '\x1B5', 
-		'\x1B6', '\x3', '\x2', '\x2', '\x2', '\x1B6', '\x1B7', '\a', '\b', '\x2', 
-		'\x2', '\x1B7', '\x45', '\x3', '\x2', '\x2', '\x2', '\x1B8', '\x1B9', 
-		'\x5', '\x38', '\x1D', '\x2', '\x1B9', '\x1BA', '\a', '\x3', '\x2', '\x2', 
-		'\x1BA', '\x1BB', '\x5', '\x14', '\v', '\x2', '\x1BB', 'G', '\x3', '\x2', 
-		'\x2', '\x2', '\x1BC', '\x1BE', '\a', '.', '\x2', '\x2', '\x1BD', '\x1BF', 
-		'\x5', '\x14', '\v', '\x2', '\x1BE', '\x1BD', '\x3', '\x2', '\x2', '\x2', 
-		'\x1BE', '\x1BF', '\x3', '\x2', '\x2', '\x2', '\x1BF', 'I', '\x3', '\x2', 
-		'\x2', '\x2', '\x1C0', '\x1C1', '\t', '\t', '\x2', '\x2', '\x1C1', 'K', 
-		'\x3', '\x2', '\x2', '\x2', '/', 'O', 'W', '[', '\x65', 'p', 'x', '~', 
-		'\x92', '\x97', '\xA1', '\xAD', '\xB4', '\xBE', '\xC9', '\xD4', '\xDF', 
-		'\xEA', '\xF5', '\x100', '\x106', '\x115', '\x119', '\x125', '\x129', 
-		'\x12D', '\x12F', '\x13C', '\x142', '\x148', '\x150', '\x154', '\x15E', 
-		'\x165', '\x167', '\x175', '\x17D', '\x181', '\x18C', '\x190', '\x19A', 
-		'\x1A2', '\x1A6', '\x1B0', '\x1B4', '\x1BE',
+		'\x2', '\x1B3', '\x1B5', '\x5', '\x46', '$', '\x2', '\x1B4', '\x1B3', 
+		'\x3', '\x2', '\x2', '\x2', '\x1B4', '\x1B5', '\x3', '\x2', '\x2', '\x2', 
+		'\x1B5', '\x1B6', '\x3', '\x2', '\x2', '\x2', '\x1B6', '\x1B7', '\a', 
+		'\b', '\x2', '\x2', '\x1B7', '\x45', '\x3', '\x2', '\x2', '\x2', '\x1B8', 
+		'\x1B9', '\x5', '\x38', '\x1D', '\x2', '\x1B9', '\x1BA', '\a', '\x3', 
+		'\x2', '\x2', '\x1BA', '\x1BB', '\x5', '\x14', '\v', '\x2', '\x1BB', 'G', 
+		'\x3', '\x2', '\x2', '\x2', '\x1BC', '\x1BE', '\a', '.', '\x2', '\x2', 
+		'\x1BD', '\x1BF', '\x5', '\x14', '\v', '\x2', '\x1BE', '\x1BD', '\x3', 
+		'\x2', '\x2', '\x2', '\x1BE', '\x1BF', '\x3', '\x2', '\x2', '\x2', '\x1BF', 
+		'I', '\x3', '\x2', '\x2', '\x2', '\x1C0', '\x1C1', '\t', '\t', '\x2', 
+		'\x2', '\x1C1', 'K', '\x3', '\x2', '\x2', '\x2', '/', 'O', 'W', '[', '\x65', 
+		'p', 'x', '~', '\x92', '\x97', '\xA1', '\xAD', '\xB4', '\xBE', '\xC9', 
+		'\xD4', '\xDF', '\xEA', '\xF5', '\x100', '\x106', '\x115', '\x119', '\x125', 
+		'\x129', '\x12D', '\x12F', '\x13C', '\x142', '\x148', '\x150', '\x154', 
+		'\x15E', '\x165', '\x167', '\x175', '\x17D', '\x181', '\x18C', '\x190', 
+		'\x19A', '\x1A2', '\x1A6', '\x1B0', '\x1B4', '\x1BE',
 	};
 
 	public static readonly ATN _ATN =

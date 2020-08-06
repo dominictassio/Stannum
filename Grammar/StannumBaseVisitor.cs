@@ -610,7 +610,7 @@ public partial class StannumBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitRecord([NotNull] StannumParser.RecordContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.recordMember"/>.
+	/// Visit a parse tree produced by <see cref="StannumParser.recordField"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -618,7 +618,7 @@ public partial class StannumBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitRecordMember([NotNull] StannumParser.RecordMemberContext context) { return VisitChildren(context); }
+	public virtual Result VisitRecordField([NotNull] StannumParser.RecordFieldContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.returnExpr"/>.
 	/// <para>

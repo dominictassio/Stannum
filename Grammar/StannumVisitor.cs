@@ -392,11 +392,11 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitRecord([NotNull] StannumParser.RecordContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.recordMember"/>.
+	/// Visit a parse tree produced by <see cref="StannumParser.recordField"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitRecordMember([NotNull] StannumParser.RecordMemberContext context);
+	Result VisitRecordField([NotNull] StannumParser.RecordFieldContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.returnExpr"/>.
 	/// </summary>

@@ -94,7 +94,7 @@
         <Compile Include="Ast\IfStmt.cs" />
         <Compile Include="Ast\LambdaExpr.cs" />
         <Compile Include="Ast\Literal.cs" />
-        <Compile Include="Ast\RecordMember.cs" />
+        <Compile Include="Ast\RecordField.cs" />
         <Compile Include="Ast\ReturnExpr.cs" />
         <Compile Include="Ast\Stmt.cs" />
         <Compile Include="Ast\UnaryExpr.cs" />

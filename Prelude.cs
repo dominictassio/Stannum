@@ -52,7 +52,7 @@ namespace Stannum
 
             Define("Number", new Dictionary<string, object>
             {
-                ["_"] = new Builtin(1, arguments => arguments[0] is double ? arguments[0] : null),
+                ["new"] = new Builtin(1, arguments => arguments[0] is double ? arguments[0] : null),
                 ["contains"] = new Builtin(1, arguments => arguments[0] is double),
                 ["epsilon"] = double.Epsilon,
                 ["maxvalue"] = double.MaxValue,
@@ -64,7 +64,7 @@ namespace Stannum
 
             Define("String", new Dictionary<string, object>
             {
-                ["_"] = new Builtin(1, arguments => arguments[0] switch
+                ["new"] = new Builtin(1, arguments => arguments[0] switch
                 {
                     double number => number.ToString(CultureInfo.InvariantCulture),
                     string s => s,
@@ -76,14 +76,14 @@ namespace Stannum
 
             Define("List", new Dictionary<string, object>
             {
-                ["_"] = new Builtin(1, arguments => arguments[0] is List<object> ? arguments[0] : null),
+                ["new"] = new Builtin(1, arguments => arguments[0] is List<object> ? arguments[0] : null),
                 ["contains"] = new Builtin(1, arguments => arguments[0] is List<object>),
                 ["empty"] = new List<object>()
             });
 
             Define("Record", new Dictionary<string, object>
             {
-                ["_"] = new Builtin(1, arguments => arguments[0] is Dictionary<string, object> ? arguments[0] : null),
+                ["new"] = new Builtin(1, arguments => arguments[0] is Dictionary<string, object> ? arguments[0] : null),
                 ["contains"] = new Builtin(1, arguments => arguments[0] is Dictionary<string, object>),
                 ["empty"] = new Dictionary<string, object>()
             });

@@ -1,8 +1,8 @@
 ﻿namespace Stannum.Ast
 {
-    public class RecordMember : AstNode
+    public class RecordField : AstNode
     {
-        public RecordMember(string name, Expr value)
+        public RecordField(string name, Expr value)
         {
             Name = name;
             Value = value;

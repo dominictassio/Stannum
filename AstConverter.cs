@@ -639,9 +639,9 @@ namespace Stannum
         {
             var members = new Dictionary<string, Expr>();
 
-            for (var i = 0; i < context._Elems.Count; i += 1)
+            for (var i = 0; i < context._Fields.Count; i += 1)
             {
-                if (!(Visit(context._Elems[i]) is RecordMember member))
+                if (!(Visit(context._Fields[i]) is RecordField member))
                 {
                     throw new Exception("Unrecognized record member!");
                 }
@@ -652,16 +652,19 @@ namespace Stannum
             return new Literal(members);
         }
 
-        public override AstNode VisitRecordMember(StannumParser.RecordMemberContext context)
+        public override AstNode VisitRecordField(StannumParser.RecordFieldContext context)
         {
-            var name = context.Name.GetText();
+            if (!(Visit(context.Name) is Identifier name))
+            {
+                throw new Exception("Unrecognized identifier!");
+            }
 
             if (!(Visit(context.Value) is Expr value))
             {
                 throw new Exception("Unrecognized expression!");
             }
-
-            return new RecordMember(name, value);
+            
+            return new RecordField(name.Value, value);
         }
 
         public override AstNode VisitReturnExpr(StannumParser.ReturnExprContext context)

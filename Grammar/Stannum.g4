@@ -133,9 +133,9 @@ literal
     
 list: '[' (Elems+=expression ',')* Elems+=expression? ']';
 
-record: '{' Elems+=recordMember (',' Elems+=recordMember)* ','? '}';
+record: '{' (Fields+=recordField ',')* Fields+=recordField? '}';
 
-recordMember: Name=identifier '=' Value=expression;
+recordField: Name=identifier '=' Value=expression;
 
 returnExpr: RETURN Value=expression?;
 
