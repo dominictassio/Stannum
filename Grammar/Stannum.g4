@@ -85,7 +85,7 @@ accessOrCall
     : primary # AccessOrCallSkip
     | Subject=accessOrCall Op=('.'|'?.') Field=identifier # Access
     | Callee=accessOrCall '(' (Args+=expression ',')* Args+=expression? ')' # Call
-    | Subject=accessOrCall Op=(':'|'?:') Field=identifier '(' (Args+=expression ',')* Args+=expression? ')' # MethodCall;
+    | Subject=accessOrCall ':' Field=identifier '(' (Args+=expression ',')* Args+=expression? ')' # MethodCall;
 
 primary
     : blockExpr

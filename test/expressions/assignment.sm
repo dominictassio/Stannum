@@ -1,0 +1,82 @@
+﻿#
+# === ASSIGNMENT EXPRESSION ===
+#
+#   Assignment expressions take the form of:
+#
+#       <expression> := <expression>
+#       <expression> += <expression>
+#       <expression> -= <expression>
+#       <expression> *= <expression>
+#       <expression> /= <expression>
+#       <expression> %= <expression>
+#
+#   The left-hand expression must evaluate to an identifier
+# or access expression. These expressions are
+# right-associative and have the lowest precedence of all
+# binary expressions. The expression will evaluate to the
+# value assigned.
+#
+#       e.g. `(four := 4) == 4`
+#
+#       Notice the parentheses so the expression does not
+#       evaluate as `four := (4 == 4)`.
+#
+#   The identifier or field being
+# accessed needs to be defined before being used in an
+# assignment expression.
+#
+#   In the case of compound assignment expressions (i.e. +=,
+# -=, *=, /=, and %=), the left-hand side will be assigned
+# to the result of applying the respective operation to the
+# left-hand side and the right-hand side.
+#
+#       e.g. `(five += 5) == 10`
+#
+#       Assuming `five` is defined as `5`.
+#
+#   Only definition statements are allowed in the top-level
+# so the examples in the file are all within the main
+# definition.
+#
+
+# These definitions are included for use in the examples.
+name = "Jack";
+forty two = 42;
+capital = "Topeka";
+person = { name = "Jill", age = 29 }
+neg = (n) { return -n; }
+
+
+main = () {
+
+    # assignment
+    print(name); #=> Jack
+    name := "John";
+    print(name); #=> John
+    
+    # addition
+    print(forty two); #=> 42
+    forty two += 1;
+    print(forty two); #=> 43
+    
+    # subtraction
+    print(forty two); #=> 43
+    forty two -= 22;
+    print(forty two); #=> 21
+    
+    # multiplication
+    print(forty two); #=> 21
+    forty two *= 4;
+    print(forty two); #=> 84
+    
+    # division
+    print(forty two); #=> 84
+    forty two /= 2;
+    print(forty two); #=> 42
+    
+    # remainder
+    print(person.age); #=> 29
+    person.age %= 4;
+    print(person.age); #=> 1
+
+}

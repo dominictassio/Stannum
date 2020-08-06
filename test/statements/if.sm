@@ -19,6 +19,7 @@
 # alternative being another if statement, then its
 # expression is tested for truthiness and the process
 # repeats.
+#
 #   Only definition statements are allowed in the top-level
 # so the examples in the file are all within the main
 # definition.

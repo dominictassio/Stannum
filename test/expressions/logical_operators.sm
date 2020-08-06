@@ -1,0 +1,61 @@
+﻿#
+# === LOGICAL OPERATORS ===
+#
+#   Logical operators take the form of:
+#
+#       <expression> || <expression>
+#       <expression> && <expression>
+#
+#   The left and right expressions must evaluate to boolean
+# values if the they are executed. The left expression is
+# always evaluated. The right expression may not be due to
+# short-circuiting.
+#
+#   In the case of or (i.e. `||`), the right expression will
+# only be evaluated if the left expression is false.
+# Conversely for and (i.e. `&&`), the right expression will
+# only be evaluated if the left expression is true.
+#
+#   The operators will always produce a boolean value after
+# evaluation. A `True` or `False` value will result with
+# respect to standard logical operator conventions.
+#
+#   The or operator has a higher precedence than the
+# assignment operators and the and operator has a higher
+# precedence than the or operator. Both operators are
+# left-associative. Meaning the operators will evaluate
+# like:
+#
+#       True || True && True => True || (True && True)
+#
+#       True && True || True => (True && True) || True
+#
+# for precedence, and:
+#
+#       True || True || True => (True || True) || True
+#
+#       True && True && True => (True && True) && True
+#
+# for associativity.
+#
+#   Only definition statements are allowed in the top-level
+# so the examples in the file are all within the main
+# definition.
+#
+
+
+main = () {
+
+    # or
+    True || True;   #=> True
+    True || False;  #=> True
+    False || True;  #=> True
+    False || False; #=> False
+    
+    # and
+    True && True;   #=> True
+    True && False;  #=> False
+    False && True;  #=> False
+    False && False; #=> False
+    
+}

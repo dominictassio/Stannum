@@ -1,0 +1,68 @@
+﻿#
+# === RELATIONAL OPERATORS ===
+#
+#   Relational operators can take the form of:
+#
+#       expression == expression
+#       expression != expression
+#       expression <  expression
+#       expression <= expression
+#       expression >  expression
+#       expression >= expression
+#
+#   Note that the surrounding < and > that usually appear
+# around the expression or other placeholders are omitted
+# for clarity as they conflict with some of the relational
+# operators.
+#
+#   The left and right expressions must evaluate to number
+# values. Both expressions are always evaluated, unlike the
+# short-circuiting logic operators.
+#
+#   The operators will always produce a boolean value after
+# evaluation. A `True` or `False` value will result with
+# respect to standard relational operator conventions.
+#
+#   The equality operators (i.e. `==` and `!=`) have a
+# higher precedence than the logical operators and the
+# remaining relational operators (i.e. `<`, `<=`, `>`, and
+# `>=`) have a higher precedence than the equality
+# operators.
+#
+#   Only definition statements are allowed in the top-level
+# so the examples in the file are all within the main
+# definition.
+#
+
+
+main = () {
+    
+    # equals
+    print(4 == 4); #=> True
+    print(4 == 5); #=> False
+    
+    # not equals
+    print(4 != 4); #=> False
+    print(4 != 5); #= True
+    
+    # less than
+    print(4 < 3); #=> False
+    print(4 < 4); #=> False
+    print(4 < 5); #=> True
+    
+    # less than or equal to
+    print(4 <= 3); #=> False
+    print(4 <= 4); #=> True
+    print(4 <= 5); #=> True
+    
+    # greater than
+    print(4 > 3); #=> True
+    print(4 > 4); #=> False
+    print(4 > 5); #=> False
+    
+    # greater than or equal to
+    print(4 >= 3); #=> True
+    print(4 >= 4); #=> True
+    print(4 >= 5); #=> False
+
+}

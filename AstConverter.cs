@@ -409,7 +409,7 @@ namespace Stannum
                 throw new Exception("Unrecognized identifier!");
             }
             
-            var callee = new BinaryExpr(subject, context.Op.Text.Replace(':', '.'), field);
+            var callee = new BinaryExpr(subject, ".", field);
             
             for (var i = 0; i < context._Args.Count; i += 1)
             {

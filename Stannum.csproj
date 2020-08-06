@@ -114,6 +114,10 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="Grammar\Stannum.g4" />
+      <Content Include="test\expressions\assignment.sm" />
+      <Content Include="test\expressions\concatenation_operator.sm" />
+      <Content Include="test\expressions\logical_operators.sm" />
+      <Content Include="test\expressions\relational_operators.sm" />
       <Content Include="test\greet.sm" />
       <Content Include="test\print.sm" />
       <Content Include="test\statements\definition.sm" />
