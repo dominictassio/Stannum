@@ -102,10 +102,10 @@
         <Compile Include="Callables.cs" />
         <Compile Include="Environment.cs" />
         <Compile Include="Exceptions.cs" />
-        <Compile Include="Grammar\StannumBaseVisitor.cs" />
         <Compile Include="Grammar\StannumLexer.cs" />
         <Compile Include="Grammar\StannumParser.cs" />
-        <Compile Include="Grammar\StannumVisitor.cs" />
+        <Compile Include="Grammar\StannumParserBaseVisitor.cs" />
+        <Compile Include="Grammar\StannumParserVisitor.cs" />
         <Compile Include="Interpreter.cs" />
         <Compile Include="Prelude.cs" />
         <Compile Include="Resolver.cs" />
@@ -113,7 +113,8 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
-      <Content Include="Grammar\Stannum.g4" />
+      <Content Include="Grammar\StannumParser.g4" />
+      <Content Include="Grammar\StannumLexer.g4" />
       <Content Include="test\expressions\assignment.sm" />
       <Content Include="test\expressions\concatenation_operator.sm" />
       <Content Include="test\expressions\logical_operators.sm" />

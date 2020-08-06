@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from .\Stannum.g4 by ANTLR 4.8
+// Generated from .\StannumParser.g4 by ANTLR 4.8
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -31,7 +31,7 @@ using IToken = Antlr4.Runtime.IToken;
 /// <typeparam name="Result">The return type of the visit operation.</typeparam>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.8")]
 [System.CLSCompliant(false)]
-public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
+public interface IStannumParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.program"/>.
 	/// </summary>
@@ -326,6 +326,18 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitIdentifier([NotNull] StannumParser.IdentifierContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="StannumParser.identifier_start"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIdentifier_start([NotNull] StannumParser.Identifier_startContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="StannumParser.identifier_rest"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIdentifier_rest([NotNull] StannumParser.Identifier_restContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>IfElseExpr</c>
 	/// labeled alternative in <see cref="StannumParser.ifExpr"/>.
 	/// </summary>
@@ -403,11 +415,5 @@ public interface IStannumVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitReturnExpr([NotNull] StannumParser.ReturnExprContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.keyword"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitKeyword([NotNull] StannumParser.KeywordContext context);
 }
 } // namespace Stannum.Grammar

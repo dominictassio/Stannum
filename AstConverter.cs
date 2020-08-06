@@ -6,7 +6,7 @@ using Stannum.Grammar;
 
 namespace Stannum
 {
-    public class AstConverter : StannumBaseVisitor<AstNode>
+    public class AstConverter : StannumParserBaseVisitor<AstNode>
     {
         public List<Stmt> Convert(StannumParser.ProgramContext context)
         {
@@ -483,9 +483,9 @@ namespace Stannum
 
         public override AstNode VisitIdentifier(StannumParser.IdentifierContext context)
         {
-            var raw = context.GetText();
+            var raw = context.GetText().Replace(" ", "").Replace("\t", "");
 
-            if (raw.Substring(0, 1) == "$")
+            if (raw.Substring(0, 1) == "@")
             {
                 raw = raw.Substring(1);
             }

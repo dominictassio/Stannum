@@ -1,4 +1,6 @@
-grammar Stannum;
+parser grammar StannumParser;
+
+options { tokenVocab=StannumLexer; }
 
 program: Defs+=definition_* EOF;
 
@@ -114,8 +116,12 @@ continueExpr: CONTINUE Label=identifier?;
 grouped: '(' Value=expression ')';
 
 identifier
-    : IDENTIFIER keyword*
-    | '$' keyword+;
+    : identifier_start identifier_rest
+    | '@' identifier_rest;
+
+identifier_start: IDENTIFIER_START;
+
+identifier_rest: IDENTIFIER_REST;
 
 ifExpr
     : IF Cond=expression Cons=blockExpr ELSE Alt=blockExpr # IfElseExpr
@@ -138,39 +144,3 @@ record: '{' (Fields+=recordField ',')* Fields+=recordField? '}';
 recordField: Name=identifier '=' Value=expression;
 
 returnExpr: RETURN Value=expression?;
-
-
-//
-// Lexical Tokens
-//
-
-keyword: IDENTIFIER | BREAK | CONTINUE | ELSE | FOR | IF | MATCH | RETURN | STRUCT | VAR | WHILE;
-
-BREAK: 'break';
-CONTINUE: 'continue';
-ELSE: 'else';
-FOR: 'for';
-IF: 'if';
-MATCH: 'match';
-RETURN: 'return';
-STRUCT: 'struct';
-VAR: 'var';
-WHILE: 'while';
-
-IDENTIFIER: [a-zA-Z_] [a-zA-Z0-9_]*;
-    
-NUMBER: [0-9] [0-9_]* ('.' [0-9] [0-9_]*)?;
-
-STRING: '"' STRCHAR* '"';
-
-fragment STRCHAR
-    : ~["\\\r\n]
-    | '\\' ESCSEQ;
-
-fragment ESCSEQ
-    : ['"\\0abfnrtv]
-    | 'u' [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9];
-
-WS: [ \n\r\t]+ -> skip;
-
-COMMENT: '#' ~[\r\n\f]* -> skip;

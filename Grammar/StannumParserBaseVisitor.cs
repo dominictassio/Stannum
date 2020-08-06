@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from .\Stannum.g4 by ANTLR 4.8
+// Generated from .\StannumParser.g4 by ANTLR 4.8
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -26,14 +26,14 @@ using IToken = Antlr4.Runtime.IToken;
 using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 
 /// <summary>
-/// This class provides an empty implementation of <see cref="IStannumVisitor{Result}"/>,
+/// This class provides an empty implementation of <see cref="IStannumParserVisitor{Result}"/>,
 /// which can be extended to create a visitor which only needs to handle a subset
 /// of the available methods.
 /// </summary>
 /// <typeparam name="Result">The return type of the visit operation.</typeparam>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.8")]
 [System.CLSCompliant(false)]
-public partial class StannumBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, IStannumVisitor<Result> {
+public partial class StannumParserBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, IStannumParserVisitor<Result> {
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="StannumParser.program"/>.
 	/// <para>
@@ -504,6 +504,26 @@ public partial class StannumBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitIdentifier([NotNull] StannumParser.IdentifierContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="StannumParser.identifier_start"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitIdentifier_start([NotNull] StannumParser.Identifier_startContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="StannumParser.identifier_rest"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitIdentifier_rest([NotNull] StannumParser.Identifier_restContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by the <c>IfElseExpr</c>
 	/// labeled alternative in <see cref="StannumParser.ifExpr"/>.
 	/// <para>
@@ -629,15 +649,5 @@ public partial class StannumBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitReturnExpr([NotNull] StannumParser.ReturnExprContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="StannumParser.keyword"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitKeyword([NotNull] StannumParser.KeywordContext context) { return VisitChildren(context); }
 }
 } // namespace Stannum.Grammar
